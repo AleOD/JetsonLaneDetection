@@ -35,29 +35,77 @@ def canny(img):
         cv2.destroyAllWindows()
         exit()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    kernel = 201
+    kernel = 101
     blur = cv2.GaussianBlur(gray,(kernel, kernel),0)
-    canny= blur
-    canny = cv2.Canny(gray, 5, 40,L2gradient = True)
+    canny = blur
+    #canny = cv2.Canny(gray, 4, 100,L2gradient = True)
+    canny = cv2.Canny(gray, 200, 5)
     return canny
 
 def region_of_interest(canny):
    height = canny.shape[0]
    width = canny.shape[1]
    mask = np.zeros_like(canny)
-   triangle = np.array([[
-   (0, height/1.75),
-   (width/2, 0),
-   (width, height/1.75),]], np.int32)
-   cv2.fillPoly(mask, triangle, 255)
+   trapezoid = np.array([[
+   (0, height*2/3),
+   (width, height*2/3),
+   (width*9/10,height/10),
+   (width/10, height/10),
+   ]], np.int32)
+   cv2.fillPoly(mask, trapezoid, 255)
+   #cv2.fillPoly(mask, trapezoid, 0)
    masked_image = cv2.bitwise_and(canny, mask)
+   cv2.polylines(masked_image, trapezoid, True, 255, 2)
    return masked_image
 
-h_min = 0
-h_max = 83
+def houghLines(cropped_canny):
+   return cv2.HoughLinesP(cropped_canny, 2, np.pi/180, 10, 
+       np.array([]), minLineLength=10, maxLineGap=150)
+def addWeighted(frame, line_image):
+    return cv2.addWeighted(frame, 0.8, line_image, 1, 1)
+ 
+def display_lines(img,lines):
+    line_image = np.zeros_like(img)
+    if lines is not None:
+        for line in lines:
+            for x1, y1, x2, y2 in line:
+                cv2.line(line_image,(x1,y1),(x2,y2),(0,0,255),10)
+    return line_image
+ 
+def make_points(image, line):
+    slope, intercept = line
+    y1 = int(image.shape[0])
+    y2 = int(y1*3.0/5)      
+    x1 = int((y1 - intercept)/slope)
+    x2 = int((y2 - intercept)/slope)
+    return [[x1, y1, x2, y2]]
+ 
+def average_slope_intercept(image, lines):
+    left_fit    = []
+    right_fit   = []
+    if lines is None:
+        return None
+    for line in lines:
+        for x1, y1, x2, y2 in line:
+            fit = np.polyfit((x1,x2), (y1,y2), 1)
+            slope = fit[0]
+            intercept = fit[1]
+            if slope < 0: 
+                left_fit.append((slope, intercept))
+            else:
+                right_fit.append((slope, intercept))
+    left_fit_average  = np.average(left_fit, axis=0)
+    right_fit_average = np.average(right_fit, axis=0)
+    left_line  = make_points(image, left_fit_average)
+    right_line = make_points(image, right_fit_average)
+    averaged_lines = [left_line, right_line]
+    return averaged_lines
+
+h_min = 4
+h_max = 52
 s_min = 74
-s_max = 230
-v_min = 135
+s_max = 229
+v_min = 115
 v_max = 255
 
 
@@ -67,15 +115,15 @@ while True:
     #Prefiltrado Naranja    
     ret,frame = cap.read()
 
-    height = frame.shape[0]
-    width = frame.shape[1]
+    # height = frame.shape[0]
+    # width = frame.shape[1]
 
-    pts = np.float32([[0,0],[width,0],[0,height],[width,height]])
+    # pts = np.float32([[0,0],[width,0],[0,height],[width,height]])
 
-    matrix = cv2.getPerspectiveTransform(pts,pts)
-    imgOut=cv2.warpPerspective(frame,matrix,(width,height))
+    # matrix = cv2.getPerspectiveTransform(pts,pts)
+    # imgOut=cv2.warpPerspective(frame,matrix,(width,height))
 
-    imgHSV = cv2.cvtColor(imgOut, cv2.COLOR_BGR2HSV)
+    imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     lower = np.array([h_min, s_min, v_min])
     upper = np.array([h_max, s_max, v_max])
     mask = cv2.inRange(imgHSV, lower, upper)
@@ -84,10 +132,17 @@ while True:
 
     canny_image = canny(imgResult)
     cropped_canny = region_of_interest(canny_image)
-    cv2.imshow("canny_image",canny_image)
-    cv2.imshow("Normal",frame)
-    cv2.imshow("Resized",imgOut)
+    lines = houghLines(cropped_canny)
+    averaged_lines = average_slope_intercept(frame, lines)
+    line_image = display_lines(frame, averaged_lines)
+    combo_image = addWeighted(frame, line_image)
+    #cv2.imshow("Canny",canny_image)
     cv2.imshow("ROI",cropped_canny)
+
+    cv2.imshow("result", combo_image)
+    cv2.imshow("Oranged",imgResult)
+    #cv2.imshow("Normal",frame)
+
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
