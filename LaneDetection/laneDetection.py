@@ -75,11 +75,7 @@ def display_lines(img,lines):
 def make_points(image, line):
     print("******Voy a imprimir line /n ****")
     print(line)
-    if line:
-        slope  = line
-    else:
-        slope = 1
-    intercept = line
+    slope, intercept  = line
     print("******Voy a imprimir slope /n ****")
     print(slope)
     y1 = int(image.shape[0]) #height
@@ -107,6 +103,9 @@ def average_slope_intercept(image, lines):
 
     left_fit_average  = np.average(left_fit, axis=0)
     right_fit_average = np.average(right_fit, axis=0)
+    print("******************* Impresion de Ben Ha ****************")
+    print(left_fit_average)
+    print(right_fit_average)
     
     if left_fit_average is None:  
         print("******************* No hubo izquierdo ****************")
