@@ -118,7 +118,7 @@ def average_slope_intercept(image, lines):
         print("******************* No hubo derecho ****************")
         
     else:
-         print("******************* Si hubo derecho ****************")
+        print("******************* Si hubo derecho ****************")
         right_line = make_points(image, right_fit_average)
         print(right_line)
        
