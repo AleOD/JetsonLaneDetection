@@ -128,7 +128,7 @@ while True:
     canny_image = canny(imgResult)
     cropped_canny = region_of_interest(canny_image)
     lines = houghLines(cropped_canny,width)
-    averaged_lines = average_slope_intercept(frame, lines)
+    #averaged_lines = average_slope_intercept(frame, lines)
     #print(lines)
     #line_image = display_lines(frame, averaged_lines)
     line_image = display_lines(frame, lines)
