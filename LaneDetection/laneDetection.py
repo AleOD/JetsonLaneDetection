@@ -99,8 +99,10 @@ def average_slope_intercept(image, lines):
                 right_fit.append((slope, intercept))
     left_fit_average  = np.average(left_fit, axis=0)
     right_fit_average = np.average(right_fit, axis=0)
+    print("******************* XD ****************")
     left_line  = make_points(image, left_fit_average)
     right_line = make_points(image, right_fit_average)
+    print("******************* XE ****************")
     averaged_lines = [left_line, right_line]
     return averaged_lines
 
