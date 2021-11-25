@@ -39,7 +39,7 @@ def canny(img):
     blur = cv2.GaussianBlur(gray,(kernel, kernel),0)
     canny = blur
     #canny = cv2.Canny(gray, 4, 100,L2gradient = True)
-    canny = cv2.Canny(gray, 500, 400)
+    canny = cv2.Canny(gray, 700, 600)
     return canny
 
 def region_of_interest(canny):
@@ -137,7 +137,7 @@ while True:
     cv2.imshow("ROI",cropped_canny)
 
     cv2.imshow("result", combo_image)
-    cv2.imshow("Oranged",imgResult)
+    #cv2.imshow("Oranged",imgResult)
     #cv2.imshow("Normal",frame)
     #print("updated Code")
 
