@@ -129,6 +129,7 @@ while True:
     cropped_canny = region_of_interest(canny_image)
     lines = houghLines(cropped_canny,width)
     averaged_lines = average_slope_intercept(frame, lines)
+    print(lines)
     line_image = display_lines(frame, averaged_lines)
     combo_image = addWeighted(frame, line_image)
     #cv2.imshow("Canny",canny_image)
