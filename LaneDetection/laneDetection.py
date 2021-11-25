@@ -47,15 +47,15 @@ def region_of_interest(canny):
    width = canny.shape[1]
    mask = np.zeros_like(canny)
    trapezoid = np.array([[
-   (0, 1),
-   (width, height-1),
+   (0, 0),
+   (width, height),
    (width*9/10,height/10),
    (width/10, height/10),
    ]], np.int32)
    cv2.fillPoly(mask, trapezoid, 255)
    #cv2.fillPoly(mask, trapezoid, 0)
    masked_image = cv2.bitwise_and(canny, mask)
-   #cv2.polylines(masked_image, trapezoid, True, 255, 2)
+   cv2.polylines(masked_image, trapezoid, True, 255, 2)
    return masked_image
 
 def houghLines(cropped_canny):
