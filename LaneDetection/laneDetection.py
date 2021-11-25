@@ -85,6 +85,7 @@ def average_slope_intercept(image, lines):
     left_fit    = []
     right_fit   = []
     if lines is None:
+        print("*************/n     mori   /n  ****************")
         return None
     for line in lines:
         for x1, y1, x2, y2 in line:
