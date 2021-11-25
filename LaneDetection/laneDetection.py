@@ -76,6 +76,8 @@ def make_points(image, line):
     print("******Voy a imprimir line /n ****")
     print(line)
     slope, intercept = line
+    print("******Voy a imprimir slope /n ****")
+    print(slope)
     y1 = int(image.shape[0]) #height
     y2 = int(y1*3.0/5)      
     x1 = int((y1 - intercept)/slope)
@@ -102,14 +104,14 @@ def average_slope_intercept(image, lines):
     left_fit_average  = np.average(left_fit, axis=0)
     right_fit_average = np.average(right_fit, axis=0)
     
-    if left_fit is None:  
+    if left_fit_average is None:  
         print("******************* No hubo izquierdo ****************")
     else:
         left_line  = make_points(image, left_fit_average)
         print(left_line)
         print("******************* Si hubo izquierdo ****************")
 
-    if right_fit is None:
+    if right_fit_average is None:
         print("******************* No hubo derecho ****************")
         
     else:
