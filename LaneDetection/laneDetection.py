@@ -39,7 +39,7 @@ def canny(img):
     blur = cv2.GaussianBlur(gray,(kernel, kernel),0)
     canny = blur
     #canny = cv2.Canny(gray, 4, 100,L2gradient = True)
-    canny = cv2.Canny(gray, 200, 15)
+    canny = cv2.Canny(gray, 200, 25)
     return canny
 
 def region_of_interest(canny):
@@ -59,7 +59,7 @@ def region_of_interest(canny):
    return masked_image
 
 def houghLines(cropped_canny,width):
-   return cv2.HoughLinesP(cropped_canny, 3, np.pi/180, 40, 
+   return cv2.HoughLinesP(cropped_canny, 5, np.pi/180, 50, 
        np.array([]), minLineLength=20, maxLineGap=20)
 def addWeighted(frame, line_image):
     return cv2.addWeighted(frame, 0.8, line_image, 1, 0.0)
