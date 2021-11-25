@@ -59,7 +59,7 @@ def region_of_interest(canny):
    return masked_image
 
 def houghLines(cropped_canny,width):
-   return cv2.HoughLinesP(cropped_canny, 5, np.pi/180, 50, 
+   return cv2.HoughLinesP(cropped_canny, 1, np.pi/180, 50, 
        np.array([]), minLineLength=30, maxLineGap=5)
 def addWeighted(frame, line_image):
     return cv2.addWeighted(frame, 0.8, line_image, 1, 0.0)
@@ -130,8 +130,8 @@ while True:
     lines = houghLines(cropped_canny,width)
     averaged_lines = average_slope_intercept(frame, lines)
     #print(lines)
-    line_image = display_lines(frame, averaged_lines)
-    #line_image = display_lines(frame, lines)
+    #line_image = display_lines(frame, averaged_lines)
+    line_image = display_lines(frame, lines)
     combo_image = addWeighted(frame, line_image)
     #cv2.imshow("Canny",canny_image)
     cv2.imshow("ROI",cropped_canny)
