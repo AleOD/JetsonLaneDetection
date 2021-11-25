@@ -88,6 +88,7 @@ def average_slope_intercept(image, lines):
         print("*************/n     mori   /n  ****************")
         return None
     for line in lines:
+        print("*************/n No    mori   /n  ****************")
         for x1, y1, x2, y2 in line:
             fit = np.polyfit((x1,x2), (y1,y2), 1)
             slope = fit[0]
