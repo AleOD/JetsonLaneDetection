@@ -142,7 +142,7 @@ while True:
     cv2.imshow("result", combo_image)
     cv2.imshow("Oranged",imgResult)
     #cv2.imshow("Normal",frame)
-    printf("updated Code")
+    #print("updated Code")
 
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
