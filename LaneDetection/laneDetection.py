@@ -58,9 +58,9 @@ def region_of_interest(canny):
    #cv2.polylines(masked_image, trapezoid, True, 255, 2)
    return masked_image
 
-def houghLines(cropped_canny):
+def houghLines(cropped_canny,width):
    return cv2.HoughLinesP(cropped_canny, 2, np.pi/180, 15, 
-       np.array([]), minLineLength=10, maxLineGap=150)
+       np.array([]), minLineLength=20, maxLineGap=width)
 def addWeighted(frame, line_image):
     return cv2.addWeighted(frame, 0.8, line_image, 1, 1)
  
@@ -116,12 +116,7 @@ while True:
     ret,frame = cap.read()
 
     # height = frame.shape[0]
-    # width = frame.shape[1]
-
-    # pts = np.float32([[0,0],[width,0],[0,height],[width,height]])
-
-    # matrix = cv2.getPerspectiveTransform(pts,pts)
-    # imgOut=cv2.warpPerspective(frame,matrix,(width,height))
+    width = frame.shape[1]
 
     imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     lower = np.array([h_min, s_min, v_min])
@@ -132,7 +127,7 @@ while True:
 
     canny_image = canny(imgResult)
     cropped_canny = region_of_interest(canny_image)
-    lines = houghLines(cropped_canny)
+    lines = houghLines(cropped_canny,width)
     averaged_lines = average_slope_intercept(frame, lines)
     line_image = display_lines(frame, averaged_lines)
     combo_image = addWeighted(frame, line_image)
