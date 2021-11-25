@@ -47,8 +47,8 @@ def region_of_interest(canny):
    width = canny.shape[1]
    mask = np.zeros_like(canny)
    trapezoid = np.array([[
-   (0, 0),
-   (width, height),
+   (0, 1),
+   (width, height-1),
    (width*9/10,height/10),
    (width/10, height/10),
    ]], np.int32)
