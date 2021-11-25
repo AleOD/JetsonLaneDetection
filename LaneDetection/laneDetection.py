@@ -7,8 +7,8 @@ def gstreamer_pipeline(
     capture_height=400,
     display_width=600,
     display_height=400,
-    #framerate=30,
-    framerate=21,
+    framerate=30,
+    #framerate=21,
     flip_method=0,
 ):
     return (
@@ -56,7 +56,7 @@ def region_of_interest(canny):
    cv2.fillPoly(mask, trapezoid, 255)
    #cv2.fillPoly(mask, trapezoid, 0)
    masked_image = cv2.bitwise_and(canny, mask)
-   cv2.polylines(masked_image, trapezoid, True, 255, 2)
+   #cv2.polylines(masked_image, trapezoid, True, 255, 2)
    return masked_image
 
 def houghLines(cropped_canny):
