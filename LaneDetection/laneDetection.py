@@ -59,7 +59,7 @@ def region_of_interest(canny):
    return masked_image
 
 def houghLines(cropped_canny):
-   return cv2.HoughLinesP(cropped_canny, 2, np.pi/180, 10, 
+   return cv2.HoughLinesP(cropped_canny, 2, np.pi/180, 15, 
        np.array([]), minLineLength=10, maxLineGap=150)
 def addWeighted(frame, line_image):
     return cv2.addWeighted(frame, 0.8, line_image, 1, 1)
