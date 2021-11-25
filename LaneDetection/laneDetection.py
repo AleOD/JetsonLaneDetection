@@ -47,15 +47,15 @@ def region_of_interest(canny):
    width = canny.shape[1]
    mask = np.zeros_like(canny)
    trapezoid = np.array([[
-   (0, height*2/3),
-   (width, height*2/3),
+   (0, 0),
+   (width, 0),
    (width*9/10,height/10),
    (width/10, height/10),
    ]], np.int32)
    cv2.fillPoly(mask, trapezoid, 255)
    #cv2.fillPoly(mask, trapezoid, 0)
    masked_image = cv2.bitwise_and(canny, mask)
-   cv2.polylines(masked_image, trapezoid, True, 255, 2)
+   #cv2.polylines(masked_image, trapezoid, True, 255, 2)
    return masked_image
 
 def houghLines(cropped_canny):
@@ -101,12 +101,12 @@ def average_slope_intercept(image, lines):
     averaged_lines = [left_line, right_line]
     return averaged_lines
 
-h_min = 4
-h_max = 52
-s_min = 74
-s_max = 229
-v_min = 115
-v_max = 255
+h_min = 0
+h_max = 40
+s_min = 50
+s_max = 150
+v_min = 73
+v_max = 165
 
 
 
@@ -142,6 +142,7 @@ while True:
     cv2.imshow("result", combo_image)
     cv2.imshow("Oranged",imgResult)
     #cv2.imshow("Normal",frame)
+    printf("updated Code")
 
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
