@@ -60,9 +60,9 @@ def region_of_interest(canny):
 
 def houghLines(cropped_canny,width):
    return cv2.HoughLinesP(cropped_canny, 2, np.pi/180, 15, 
-       np.array([]), minLineLength=20, maxLineGap=width)
+       np.array([]), minLineLength=10, maxLineGap=width)
 def addWeighted(frame, line_image):
-    return cv2.addWeighted(frame, 0.8, line_image, 1, 1)
+    return cv2.addWeighted(frame, 0.8, line_image, 1, 0.0)
  
 def display_lines(img,lines):
     line_image = np.zeros_like(img)
