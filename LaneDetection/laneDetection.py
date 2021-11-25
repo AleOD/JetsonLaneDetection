@@ -75,7 +75,8 @@ def display_lines(img,lines):
 def make_points(image, line):
     print("******Voy a imprimir line /n ****")
     print(line)
-    slope, intercept = line
+    slope  = line
+    intercept = line
     print("******Voy a imprimir slope /n ****")
     print(slope)
     y1 = int(image.shape[0]) #height
