@@ -107,14 +107,14 @@ def average_slope_intercept(image, lines):
     print(left_fit_average)
     print(right_fit_average)
     
-    if !left_fit_average:  
+    if not left_fit_average:  
         print("******************* No hubo izquierdo ****************")
     else:
         print("******************* Si hubo izquierdo ****************")        
         left_line  = make_points(image, left_fit_average)
         print(left_line)
 
-    if !right_fit_average:
+    if not right_fit_average:
         print("******************* No hubo derecho ****************")
         
     else:
