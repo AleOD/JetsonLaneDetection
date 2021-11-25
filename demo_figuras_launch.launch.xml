@@ -1,0 +1,6 @@
+<launch>
+
+    <node pkg="demo_figuras" type="racecar.py" name="racecar" />
+    <node pkg="demo_figuras" type="figuras.py" name="figuras" />
+
+</launch>
