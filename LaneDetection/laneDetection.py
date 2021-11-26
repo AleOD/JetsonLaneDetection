@@ -81,8 +81,8 @@ def make_points(image, line):
     print(slope)
     y1 = int(image.shape[0]) #height
     y2 = int(y1*1.0/5)      
-    x1 = int((y1 - intercept)/slope)
-    x2 = int((y2 - intercept)/slope)
+    x1 = int((y1 - intercept)//slope)
+    x2 = int((y2 - intercept)//slope)
     return np.array([x1, y1, x2, y2])
  
 def average_slope_intercept(image, lines):
