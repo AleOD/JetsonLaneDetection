@@ -100,28 +100,28 @@ def average_slope_intercept(image, lines):
                 left_fit.append((slope, intercept))
             else:
                 right_fit.append((slope, intercept))
-    
-    left_fit_average  = np.average(left_fit, axis=0)
-    right_fit_average = np.average(right_fit, axis=0)
-    print("******************* Impresion de Ben Ha ****************")
-    print(left_fit_average)
-    print(right_fit_average)
-    
-    if left_fit_average:  
+
+    if left_fit == []:
         print("******************* No hubo izquierdo ****************")
+        #left_fit_average = [[]]
+        #left_line = [[]]
+        return None
     else:
-        print("******************* Si hubo izquierdo ****************")        
+        print("******************* Si hubo izquierdo ****************")    
+        left_fit_average  = np.average(left_fit, axis=0)    
         left_line  = make_points(image, left_fit_average)
         print(left_line)
 
-    if right_fit_average:
+    if right_fit == []:
         print("******************* No hubo derecho ****************")
-        
+        #right_fit_average = [[]]
+        #right_line = [[]]
+        return None
     else:
         print("******************* Si hubo derecho ****************")
+        right_fit_average = np.average(right_fit, axis=0)
         right_line = make_points(image, right_fit_average)
         print(right_line)
-       
     
     averaged_lines = [left_line, right_line]
     return averaged_lines
