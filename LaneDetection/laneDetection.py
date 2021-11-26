@@ -101,7 +101,7 @@ def average_slope_intercept(image, lines):
         print("Coordenadas son")
         print(x1,y2,x2,y2)
         fit = np.polyfit((x1,x2), (y1,y2), 1)
-        print fit
+        print(fit)
         print("After polyfit")
         slope = fit[0]
         intercept = fit[1]
