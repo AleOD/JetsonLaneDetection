@@ -6,9 +6,9 @@ from std_msgs.msg import Float32
 
 #Initialize car variable and tune settings
 car = NvidiaRacecar()
-car.steering_gain = 0.3
-car.steering_offset = -0.16
-car.throttle_gain = 1
+car.steering_gain = 1.0
+car.steering_offset = -0.05
+car.throttle_gain = 1.0
 car.steering = 0.0
 car.throttle = 0.0
 
