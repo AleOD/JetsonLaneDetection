@@ -59,7 +59,7 @@ def region_of_interest(canny):
    return masked_image
 
 def houghLines(cropped_canny,width):
-   return cv2.HoughLinesP(cropped_canny, 5, np.pi/180, 50, 
+   return cv2.HoughLinesP(cropped_canny, 5, np.pi/180, 2, 
        np.array([]), minLineLength=30, maxLineGap=5)
 def addWeighted(frame, line_image):
     return cv2.addWeighted(frame, 0.8, line_image, 1, 0.0)
@@ -168,8 +168,6 @@ while True:
     cv2.imshow("result", combo_image)
     cv2.imshow("Oranged",imgResult)
     #cv2.imshow("Normal",frame)
-    #print("updated Code")
-
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
