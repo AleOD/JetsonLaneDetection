@@ -88,19 +88,21 @@ def make_points(image, line):
 def average_slope_intercept(image, lines):
     left_fit    = []
     right_fit   = []
-    x1 = 0
-    x2 = 0
-    y1 = 0
-    y2 = 0
+    # x1 = 1
+    # x2 = 1
+    # y1 = 1
+    # y2 = 1
     if lines is None:
         print("*************/n     mori   /n  ****************")
         return None
     for line in lines:
         print("*************/n No    mori   /n  ****************")
-        print(x1,y2,x2,y2)
-        print("Te la creiste xd")
         x1,y1,x2,y2 = line.reshape(4)
+        print("Coordenadas son")
+        print(x1,y2,x2,y2)
         fit = np.polyfit((x1,x2), (y1,y2), 1)
+        print fit
+        print("After polyfit")
         slope = fit[0]
         intercept = fit[1]
         if slope < 0: 
