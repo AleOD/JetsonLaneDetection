@@ -79,7 +79,7 @@ def make_points(image, line):
     print("******Voy a imprimir slope /n ****")
     print(slope)
     y1 = int(image.shape[0]) #height
-    y2 = int(y1*3.0/5)      
+    y2 = int(y1)      
     x1 = int((y1 - intercept)/slope)
     x2 = int((y2 - intercept)/slope)
     return [[x1, y1, x2, y2]]
