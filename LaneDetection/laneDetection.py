@@ -68,6 +68,8 @@ def display_lines(img,lines):
     line_image = np.zeros_like(img)
     if lines is not None:
         for x1, y1, x2, y2 in lines:
+            print("Valores de la linea")
+            print(x1,x2,y1,y2)
             cv2.line(line_image,(x1,y1),(x2,y2),(0,0,255),10)
     return line_image
  
