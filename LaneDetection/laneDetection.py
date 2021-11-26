@@ -127,10 +127,10 @@ def average_slope_intercept(image, lines):
 
 h_min = 0
 h_max = 20
-s_min = 100
-s_max = 255
-v_min = 120
-v_max = 255
+s_min = 65
+s_max = 190
+v_min = 88
+v_max = 200
 
 
 
