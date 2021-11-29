@@ -72,17 +72,17 @@ def display_lines(img,lines):
     line_image = np.zeros_like(img)
     if lines is not None:
         for x1, y1, x2, y2 in lines:
-            print("Valores de la linea")
-            print(x1,x2,y1,y2)
+            #print("Valores de la linea")
+            #print(x1,x2,y1,y2)
             cv2.line(line_image,(x1,y1),(x2,y2),(0,0,255),10)
     return line_image
  
 def make_points(image, line):
-    print("******Voy a imprimir line /n ****")
-    print(line)
+    #print("******Voy a imprimir line /n ****")
+    #print(line)
     slope, intercept  = line
-    print("******Voy a imprimir slope /n ****")
-    print(slope)
+    #print("******Voy a imprimir slope /n ****")
+    #print(slope)
     y1 = int(round(image.shape[0],2)) #height
     y2 = int(round(y1*1.0/5,2))      
     x1 = int(round((y1 - intercept)//slope,2))
@@ -97,19 +97,19 @@ def average_slope_intercept(image, lines):
     # y1 = 1
     # y2 = 1
     if lines is None:
-        print("*************/n     mori   /n  ****************")
+        #print("*************/n     mori   /n  ****************")
         return None
     for line in lines:
-        print("*************/n No    mori   /n  ****************")
+        #print("*************/n No    mori   /n  ****************")
         x1,y1,x2,y2 = line.reshape(4)
-        print("Coordenadas son")
-        print(x1,y1,x2,y2)
+        #print("Coordenadas son")
+        #print(x1,y1,x2,y2)
         if x1==x2 or y1==y2:
-            print("Valores iguales")
+            #print("Valores iguales")
             return None
         fit = np.polyfit((x1,x2), (y1,y2), 1)
-        print(fit)
-        print("After polyfit")
+        #print(fit)
+        #print("After polyfit")
         slope = fit[0]
         intercept = fit[1]
         if slope < 0: 
@@ -118,26 +118,26 @@ def average_slope_intercept(image, lines):
             right_fit.append((slope, intercept))
 
     if left_fit == []:
-        print("******************* No hubo izquierdo ****************")
+        #print("******************* No hubo izquierdo ****************")
         #left_fit_average = [[]]
         #left_line = [[]]
         return None
     else:
-        print("******************* Si hubo izquierdo ****************")    
+        #print("******************* Si hubo izquierdo ****************")    
         left_fit_average  = np.average(left_fit, axis=0)    
         left_line,slopeLeft  = make_points(image, left_fit_average)
-        print(left_line)
+        #print(left_line)
 
     if right_fit == []:
-        print("******************* No hubo derecho ****************")
+        #print("******************* No hubo derecho ****************")
         #right_fit_average = [[]]
         #right_line = [[]]
         return None
     else:
-        print("******************* Si hubo derecho ****************")
+        #print("******************* Si hubo derecho ****************")
         right_fit_average = np.average(right_fit, axis=0)
         right_line,slopeRight = make_points(image, right_fit_average)
-        print(right_line)
+        #print(right_line)
     
     #left_fit_average  = np.average(left_fit, axis=0) 
     #left_line  = make_points(image, left_fit_average)
@@ -154,10 +154,13 @@ def movement(slopeVal,pub_throttle,pub_steering):
     slopeLeft,slopeRight=slopeVal
     pub_throttle.publish(0.2)
     if slopeLeft<-slopeRight:
+        print("********* Izquierda menor")
         pub_steering.publish(1.0)
     elif slopeLeft>-slopeRight:
+        print("*********** Derecha menor") 
         pub_steering.publish(-1.0)
     else:
+        print("**********pendientes iguales")
         pub_steering.publish(0.0)
 
 
