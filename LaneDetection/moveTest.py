@@ -155,13 +155,13 @@ def average_slope_intercept(image, lines):
 def movement(slopeVal,pub_throttle,pub_steering):
     slopeLeft=slopeVal[0]
     slopeRight=slopeVal[1]
-    pub_throttle.publish(0.2)
+    pub_throttle.publish(-0.2)
     if slopeLeft<-slopeRight:
         print("********* Izquierda menor")
-        pub_steering.publish(1.0)
+        pub_steering.publish(0.90)
     elif slopeLeft>-slopeRight:
         print("*********** Derecha menor") 
-        pub_steering.publish(-1.0)
+        pub_steering.publish(-0.90)
     else:
         print("**********pendientes iguales")
         pub_steering.publish(0.0)
@@ -170,9 +170,9 @@ def movement(slopeVal,pub_throttle,pub_steering):
 
 h_min = 0
 h_max = 20
-s_min = 117
-s_max = 190
-v_min = 110
+s_min = 70
+s_max = 255
+v_min = 120
 v_max = 255
 
 
@@ -208,6 +208,8 @@ def mainCamera():
         averaged_lines, slopeValues = average_slope_intercept(frame, lines)
 	if slopeValues is not None:
 	    movement(slopeValues,pub_throttle,pub_steering)
+	else:
+	    pub_throttle.publish(0.0)
         #print(lines)
         line_image = display_lines(frame, averaged_lines)
         #line_image = display_lines(frame, lines)
