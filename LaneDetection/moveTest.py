@@ -1,9 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import cv2
 import numpy as np
 import rospy
 from std_msgs.msg import Float32
+
+a=0
 
 #Gstreamer pipeline settings
 def gstreamer_pipeline(
@@ -98,7 +100,7 @@ def average_slope_intercept(image, lines):
     # y2 = 1
     if lines is None:
         #print("*************/n     mori   /n  ****************")
-        return None
+        return None, None
     for line in lines:
         #print("*************/n No    mori   /n  ****************")
         x1,y1,x2,y2 = line.reshape(4)
@@ -106,7 +108,7 @@ def average_slope_intercept(image, lines):
         #print(x1,y1,x2,y2)
         if x1==x2 or y1==y2:
             #print("Valores iguales")
-            return None
+            return None, None
         fit = np.polyfit((x1,x2), (y1,y2), 1)
         #print(fit)
         #print("After polyfit")
@@ -121,7 +123,7 @@ def average_slope_intercept(image, lines):
         #print("******************* No hubo izquierdo ****************")
         #left_fit_average = [[]]
         #left_line = [[]]
-        return None
+        return None, None
     else:
         #print("******************* Si hubo izquierdo ****************")    
         left_fit_average  = np.average(left_fit, axis=0)    
@@ -132,7 +134,7 @@ def average_slope_intercept(image, lines):
         #print("******************* No hubo derecho ****************")
         #right_fit_average = [[]]
         #right_line = [[]]
-        return None
+        return None, None
     else:
         #print("******************* Si hubo derecho ****************")
         right_fit_average = np.average(right_fit, axis=0)
@@ -151,7 +153,8 @@ def average_slope_intercept(image, lines):
 
 
 def movement(slopeVal,pub_throttle,pub_steering):
-    slopeLeft,slopeRight=slopeVal
+    slopeLeft=slopeVal[0]
+    slopeRight=slopeVal[1]
     pub_throttle.publish(0.2)
     if slopeLeft<-slopeRight:
         print("********* Izquierda menor")
@@ -174,8 +177,9 @@ v_max = 255
 
 
 
-cap = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), cv2.CAP_GSTREAMER)
+
 def mainCamera():
+    cap = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), cv2.CAP_GSTREAMER)
     pub_throttle = rospy.Publisher('throttle', Float32, queue_size=8)
     pub_steering = rospy.Publisher('steering', Float32, queue_size=8)
     rospy.init_node('teleop', anonymous=True)
@@ -202,8 +206,8 @@ def mainCamera():
         cropped_canny = region_of_interest(canny_image)
         lines = houghLines(cropped_canny,width)
         averaged_lines, slopeValues = average_slope_intercept(frame, lines)
-
-        movement(slopeValues,pub_throttle,pub_steering)
+	if slopeValues is not None:
+	    movement(slopeValues,pub_throttle,pub_steering)
         #print(lines)
         line_image = display_lines(frame, averaged_lines)
         #line_image = display_lines(frame, lines)
