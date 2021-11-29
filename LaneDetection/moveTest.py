@@ -217,11 +217,12 @@ def mainCamera():
         
         if cv2.waitKey(1) & 0xFF == ord('q'):
             a=1
+            cap.release()
+            cv2.destroyAllWindows()
 
         rate.sleep()
 
-    cap.release()
-    cv2.destroyAllWindows()
+    
 
 if __name__ == '__main__':
     try:
