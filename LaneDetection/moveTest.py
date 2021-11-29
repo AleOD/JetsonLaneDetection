@@ -164,10 +164,10 @@ def movement(slopeVal,pub_throttle,pub_steering):
 
 h_min = 0
 h_max = 20
-s_min = 65
+s_min = 117
 s_max = 190
-v_min = 88
-v_max = 200
+v_min = 110
+v_max = 255
 
 
 
