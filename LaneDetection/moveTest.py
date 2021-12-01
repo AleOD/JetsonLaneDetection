@@ -179,7 +179,7 @@ def average_slope_intercept(image, lines):
 def movement(slopeVal,pub_throttle,pub_steering):
     slopeLeft=slopeVal[0]
     slopeRight=slopeVal[1]
-    pub_throttle.publish(-0.2)
+    pub_throttle.publish(-0.4)
     print("********pendiente izquierda")
     print(slopeLeft)
     print("********pendiente derecha")
@@ -195,7 +195,8 @@ def movement(slopeVal,pub_throttle,pub_steering):
         #    pub_steering.publish(-0.90)
         #else:
             #print("**********pendientes iguales")
-            pub_steering.publish(0.4)
+            pub_steering.publish(0.0)
+            pub_throttle.publish(-0.4)
 
     else:
 
