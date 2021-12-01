@@ -121,8 +121,8 @@ def average_slope_intercept(image, lines):
 
     if left_fit == []:
         #print("******************* No hubo izquierdo ****************")
-        left_line = None
-        slopeLeft = None
+        left_line = 0.0
+        slopeLeft = 0.0
         #return None, None
     else:
         #print("******************* Si hubo izquierdo ****************")    
@@ -132,8 +132,8 @@ def average_slope_intercept(image, lines):
 
     if right_fit == []:
         #print("******************* No hubo derecho ****************")
-        right_line = None
-        slopeRight = None
+        right_line = 0.0
+        slopeRight = 0.0
         #return None, None
     else:
         #print("******************* Si hubo derecho ****************")
@@ -204,7 +204,7 @@ def mainCamera():
         cropped_canny = region_of_interest(canny_image)
         lines = houghLines(cropped_canny,width)
         averaged_lines, slopeValues = average_slope_intercept(frame, lines)
-        if (slopeValues[0] is None) and (slopeValues[1] is None):
+        if (slopeValues[0] == 0.0) and (slopeValues[1] == 0.0):
             print("NO me voy a mover*****************")
             pub_throttle.publish(0.0)
             
