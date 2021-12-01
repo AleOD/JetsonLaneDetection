@@ -204,29 +204,29 @@ def mainCamera():
         cropped_canny = region_of_interest(canny_image)
         lines = houghLines(cropped_canny,width)
         averaged_lines, slopeValues = average_slope_intercept(frame, lines)
-	if (slopeValues[0] is not None) and (slopeValues[1] is not None):
-        print("****** Me voy a mover")
-	    movement(slopeValues,pub_throttle,pub_steering)
-	else:
-        print("NO me voy a mover*****************")
-        pub_throttle.publish(0.0)
-        #print(lines)
-        line_image = display_lines(frame, averaged_lines)
-        #line_image = display_lines(frame, lines)
-        combo_image = addWeighted(frame, line_image)
-        #cv2.imshow("Canny",canny_image)
-        cv2.imshow("ROI",cropped_canny)
+        if (slopeValues[0] is not None) and (slopeValues[1] is not None):
+            print("****** Me voy a mover")
+            movement(slopeValues,pub_throttle,pub_steering)
+        else:
+            print("NO me voy a mover*****************")
+            pub_throttle.publish(0.0)
+            #print(lines)
+            line_image = display_lines(frame, averaged_lines)
+            #line_image = display_lines(frame, lines)
+            combo_image = addWeighted(frame, line_image)
+            #cv2.imshow("Canny",canny_image)
+            cv2.imshow("ROI",cropped_canny)
 
-        cv2.imshow("result", combo_image)
-        cv2.imshow("Oranged",imgResult)
-        #cv2.imshow("Normal",frame)
-        
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        a=1
-        cap.release()
-        cv2.destroyAllWindows()
+            cv2.imshow("result", combo_image)
+            cv2.imshow("Oranged",imgResult)
+            #cv2.imshow("Normal",frame)
+            
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            a=1
+            cap.release()
+            cv2.destroyAllWindows()
 
-    rate.sleep()
+        rate.sleep()
 
     
 
