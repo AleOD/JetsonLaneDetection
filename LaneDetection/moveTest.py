@@ -121,7 +121,7 @@ def average_slope_intercept(image, lines):
 
     if left_fit == []:
         #print("******************* No hubo izquierdo ****************")
-        left_line = 0.0
+        averaged_lines = None
         slopeLeft = 0.0
         #return None, None
     else:
@@ -132,7 +132,7 @@ def average_slope_intercept(image, lines):
 
     if right_fit == []:
         #print("******************* No hubo derecho ****************")
-        right_line = 0.0
+        averaged_lines = None
         slopeRight = 0.0
         #return None, None
     else:
