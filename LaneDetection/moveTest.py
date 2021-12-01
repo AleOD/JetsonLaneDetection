@@ -42,7 +42,7 @@ def canny(img):
         exit()
 
     kernel = np.ones((3,3),np.uint8)
-    erosion = cv2.erode(img,kernel,iterations = 2)
+    erosion = cv2.erode(img,kernel,iterations = 1)
     dilation = cv2.dilate(erosion,kernel,iterations = 2)
         
     gray = cv2.cvtColor(dilation, cv2.COLOR_BGR2GRAY)
