@@ -187,22 +187,22 @@ def movement(slopeVal,pub_throttle,pub_steering):
 
     if slopeLeft != 0.0 and slopeRight != 0.0:
 
-        if slopeLeft<-slopeRight:
+        #if slopeLeft<-slopeRight:
             #print("********* Izquierda menor")
-            pub_steering.publish(0.90)
-        elif slopeLeft>-slopeRight:
+        #    pub_steering.publish(0.90)
+        #elif slopeLeft>-slopeRight:
             #print("*********** Derecha menor") 
-            pub_steering.publish(-0.90)
-        else:
+        #    pub_steering.publish(-0.90)
+        #else:
             #print("**********pendientes iguales")
-            pub_steering.publish(0.0)
+            pub_steering.publish(0.4)
 
     else:
 
         if slopeLeft != 0:
-            pub_steering.publish(0.90)
+            pub_steering.publish(0.50)
         elif slopeRight != 0:
-            pub_steering.publish(-0.90)
+            pub_steering.publish(-0.50)
 
 
 
