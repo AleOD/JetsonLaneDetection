@@ -100,7 +100,7 @@ def average_slope_intercept(image, lines):
     # y2 = 1
     if lines is None:
         #print("*************/n     mori   /n  ****************")
-        return [0.0,0.0], [0.0,0.0]
+        return None, [0.0,0.0]
     for line in lines:
         #print("*************/n No    mori   /n  ****************")
         x1,y1,x2,y2 = line.reshape(4)
@@ -108,7 +108,7 @@ def average_slope_intercept(image, lines):
         #print(x1,y1,x2,y2)
         if x1==x2 or y1==y2:
             #print("Valores iguales")
-            return [0.0,0.0],[0.0,0.0]
+            return None,[0.0,0.0]
         fit = np.polyfit((x1,x2), (y1,y2), 1)
         #print(fit)
         #print("After polyfit")
@@ -213,15 +213,15 @@ def mainCamera():
             print("****** Me voy a mover")
             movement(slopeValues,pub_throttle,pub_steering)
             #print(lines)
-            line_image = display_lines(frame, averaged_lines)
-            #line_image = display_lines(frame, lines)
-            combo_image = addWeighted(frame, line_image)
-            #cv2.imshow("Canny",canny_image)
-            cv2.imshow("ROI",cropped_canny)
+        line_image = display_lines(frame, averaged_lines)
+        #line_image = display_lines(frame, lines)
+        combo_image = addWeighted(frame, line_image)
+        #cv2.imshow("Canny",canny_image)
+        #cv2.imshow("ROI",cropped_canny)
 
-            cv2.imshow("result", combo_image)
-            cv2.imshow("Oranged",imgResult)
-            #cv2.imshow("Normal",frame)
+        cv2.imshow("result", combo_image)
+        cv2.imshow("Oranged",imgResult)
+        cv2.imshow("Normal",frame)
             
         if cv2.waitKey(1) & 0xFF == ord('q'):
             a=1
