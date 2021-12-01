@@ -207,9 +207,6 @@ def mainCamera():
         if (slopeValues[0]) or (slopeValues[1]):
             print("****** Me voy a mover")
             movement(slopeValues,pub_throttle,pub_steering)
-        else:
-            print("NO me voy a mover*****************")
-            pub_throttle.publish(0.0)
             #print(lines)
             line_image = display_lines(frame, averaged_lines)
             #line_image = display_lines(frame, lines)
@@ -220,6 +217,10 @@ def mainCamera():
             cv2.imshow("result", combo_image)
             cv2.imshow("Oranged",imgResult)
             #cv2.imshow("Normal",frame)
+        else:
+            print("NO me voy a mover*****************")
+            pub_throttle.publish(0.0)
+            
             
         if cv2.waitKey(1) & 0xFF == ord('q'):
             a=1
