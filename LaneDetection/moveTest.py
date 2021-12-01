@@ -197,15 +197,15 @@ while True:
     cropped_canny = region_of_interest(canny_image)
     lines = houghLines(cropped_canny)
     averaged_lines, slopeValues = average_slope_intercept(frame, lines)
-    if (slopeValues[0] == 0.0) or (slopeValues[1] == 0.0):
-        print("NO me voy a mover*****************")
-        #pub_throttle.publish(0.0)
+    # if (slopeValues[0] == 0.0) or (slopeValues[1] == 0.0):
+    #     print("NO me voy a mover*****************")
+    #     #pub_throttle.publish(0.0)
         
-    else:
+    # else:
         
-        print("****** Me voy a mover")
-        #movement(slopeValues,pub_throttle,pub_steering)
-        #print(lines)
+    #     print("****** Me voy a mover")
+    #     #movement(slopeValues,pub_throttle,pub_steering)
+    #     #print(lines)
 
     line_image = display_lines(frame, averaged_lines)
     #line_image = display_lines(frame, lines)
