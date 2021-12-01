@@ -73,10 +73,22 @@ def addWeighted(frame, line_image):
 def display_lines(img,lines):
     line_image = np.zeros_like(img)
     if lines is not None:
-        for x1, y1, x2, y2 in lines:
-            #print("Valores de la linea")
-            #print(x1,x2,y1,y2)
+        if lines[0] is not None:
+            x1=lines[0][0]
+            y1=lines[0][1]
+            x2=lines[0][2]
+            y2=lines[0][3]
             cv2.line(line_image,(x1,y1),(x2,y2),(0,0,255),10)
+        if lines[1] is not None:
+            x1=lines[1][0]
+            y1=lines[1][1]
+            x2=lines[1][2]
+            y2=lines[1][3]
+            cv2.line(line_image,(x1,y1),(x2,y2),(0,0,255),10)
+        #for x1, y1, x2, y2 in lines:
+        #    #print("Valores de la linea")
+        #    #print(x1,x2,y1,y2)
+        #    cv2.line(line_image,(x1,y1),(x2,y2),(0,0,255),10)
     return line_image
  
 def make_points(image, line):
@@ -145,10 +157,16 @@ def average_slope_intercept(image, lines):
         #print(right_line)
 
     slopeValues = [slopeLeft,slopeRight]
+
     if (boolRight==1) and (boolLeft==1):
         averaged_lines = [left_line, right_line]
-    else:
+    elif (boolRight==0) and (boolLeft==0):
         averaged_lines = None
+    elif boolLeft == 1:
+        averaged_lines = [left_line, None]
+    elif boolLeft == 1:
+        averaged_lines = [None, right_line]
+
     return averaged_lines, slopeValues
 
 
@@ -160,15 +178,25 @@ def movement(slopeVal,pub_throttle,pub_steering):
     print(slopeLeft)
     print("********pendiente derecha")
     print(slopeRight)
-    if slopeLeft<-slopeRight:
-        #print("********* Izquierda menor")
-        pub_steering.publish(0.90)
-    elif slopeLeft>-slopeRight:
-        #print("*********** Derecha menor") 
-        pub_steering.publish(-0.90)
+
+    if slopeLeft != 0.0 and slopeRight != 0.0:
+
+        if slopeLeft<-slopeRight:
+            #print("********* Izquierda menor")
+            pub_steering.publish(0.90)
+        elif slopeLeft>-slopeRight:
+            #print("*********** Derecha menor") 
+            pub_steering.publish(-0.90)
+        else:
+            #print("**********pendientes iguales")
+            pub_steering.publish(0.0)
+
     else:
-        #print("**********pendientes iguales")
-        pub_steering.publish(0.0)
+
+        if slopeLeft != 0:
+            pub_steering.publish(0.90)
+        elif slopeRight != 0:
+            pub_steering.publish(-0.90)
 
 
 
@@ -227,7 +255,7 @@ def mainCamera():
 
         cv2.imshow("result", combo_image)
         cv2.imshow("Oranged",imgResult)
-        cv2.imshow("Normal",frame)
+        #cv2.imshow("Normal",frame)
             
         if cv2.waitKey(1) & 0xFF == ord('q'):
             a=1
