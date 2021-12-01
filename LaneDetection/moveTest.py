@@ -204,7 +204,7 @@ def mainCamera():
         cropped_canny = region_of_interest(canny_image)
         lines = houghLines(cropped_canny,width)
         averaged_lines, slopeValues = average_slope_intercept(frame, lines)
-        if (slopeValues[0] == 0.0) and (slopeValues[1] == 0.0):
+        if (slopeValues[0] == 0.0) or (slopeValues[1] == 0.0):
             print("NO me voy a mover*****************")
             pub_throttle.publish(0.0)
             
