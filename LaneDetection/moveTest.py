@@ -43,7 +43,10 @@ def canny(img):
     canny = blur
     #canny = cv2.Canny(gray, 4, 100,L2gradient = True)
     canny = cv2.Canny(gray, 500, 475)
-    return canny
+    kernel = np.ones((9,9),np.uint8)
+    erosion = cv2.erode(canny,kernel,iterations = 2)
+    dilation = cv2.dilate(erosion,kernel,iterations = 2)
+    return dilation
 
 def region_of_interest(canny):
    height = canny.shape[0]
@@ -58,13 +61,7 @@ def region_of_interest(canny):
    cv2.fillPoly(mask, trapezoid, 255)
    #cv2.fillPoly(mask, trapezoid, 0)
    masked_image = cv2.bitwise_and(canny, mask)
-   kernel = np.ones((9,9),np.uint8)
-   erosion = cv2.erode(masked_image,kernel,iterations = 2)
-   dilation = cv2.dilate(erosion,kernel,iterations = 2)
-   #erosion2 = cv2.erode(masked_image,kernel,iterations = 2)
-   #cv2.polylines(masked_image, trapezoid, True, 255, 2)
-   #return dilation
-   return dilation
+   return masked_image
 
 def houghLines(cropped_canny):
    return cv2.HoughLinesP(cropped_canny, 3, np.pi/180, 3, 
