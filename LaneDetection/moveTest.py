@@ -60,7 +60,7 @@ def region_of_interest(canny):
    masked_image = cv2.bitwise_and(canny, mask)
    kernel = np.ones((7,7),np.uint8)
    erosion = cv2.erode(masked_image,kernel,iterations = 3)
-   dilation = cv2.dilate(masked_image,kernel,iterations = 3)
+   dilation = cv2.dilate(masked_image,kernel,iterations = 2)
    #cv2.polylines(masked_image, trapezoid, True, 255, 2)
    return dilation
    #return erosion
