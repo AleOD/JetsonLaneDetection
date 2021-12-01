@@ -204,7 +204,12 @@ def mainCamera():
         cropped_canny = region_of_interest(canny_image)
         lines = houghLines(cropped_canny,width)
         averaged_lines, slopeValues = average_slope_intercept(frame, lines)
-        if (slopeValues[0]) and (slopeValues[1]):
+        if (slopeValues[0] is None) and (slopeValues[1] is None):
+            print("NO me voy a mover*****************")
+            pub_throttle.publish(0.0)
+            
+        else:
+            
             print("****** Me voy a mover")
             movement(slopeValues,pub_throttle,pub_steering)
             #print(lines)
@@ -217,10 +222,6 @@ def mainCamera():
             cv2.imshow("result", combo_image)
             cv2.imshow("Oranged",imgResult)
             #cv2.imshow("Normal",frame)
-        else:
-            print("NO me voy a mover*****************")
-            pub_throttle.publish(0.0)
-            
             
         if cv2.waitKey(1) & 0xFF == ord('q'):
             a=1
