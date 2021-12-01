@@ -121,9 +121,9 @@ def average_slope_intercept(image, lines):
 
     if left_fit == []:
         #print("******************* No hubo izquierdo ****************")
-        #left_fit_average = [[]]
-        #left_line = [[]]
-        return None, None
+        left_line = None
+        slopeLeft = None
+        #return None, None
     else:
         #print("******************* Si hubo izquierdo ****************")    
         left_fit_average  = np.average(left_fit, axis=0)    
@@ -132,20 +132,14 @@ def average_slope_intercept(image, lines):
 
     if right_fit == []:
         #print("******************* No hubo derecho ****************")
-        #right_fit_average = [[]]
-        #right_line = [[]]
-        return None, None
+        right_line = None
+        slopeLeft = None
+        #return None, None
     else:
         #print("******************* Si hubo derecho ****************")
         right_fit_average = np.average(right_fit, axis=0)
         right_line,slopeRight = make_points(image, right_fit_average)
         #print(right_line)
-    
-    #left_fit_average  = np.average(left_fit, axis=0) 
-    #left_line  = make_points(image, left_fit_average)
-    #right_fit_average = np.average(right_fit, axis=0)
-    #right_line = make_points(image, right_fit_average)
-
 
     slopeValues = [slopeLeft,slopeRight]
     averaged_lines = [left_line, right_line]
@@ -210,10 +204,12 @@ def mainCamera():
         cropped_canny = region_of_interest(canny_image)
         lines = houghLines(cropped_canny,width)
         averaged_lines, slopeValues = average_slope_intercept(frame, lines)
-	if slopeValues is not None:
+	if (slopeValues[0] is not None) and (slopeValues[1] is not None):
+        print("****** Me voy a mover")
 	    movement(slopeValues,pub_throttle,pub_steering)
 	else:
-	    pub_throttle.publish(0.0)
+        print("NO me voy a mover*****************")
+        pub_throttle.publish(0.0)
         #print(lines)
         line_image = display_lines(frame, averaged_lines)
         #line_image = display_lines(frame, lines)
@@ -225,12 +221,12 @@ def mainCamera():
         cv2.imshow("Oranged",imgResult)
         #cv2.imshow("Normal",frame)
         
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            a=1
-            cap.release()
-            cv2.destroyAllWindows()
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        a=1
+        cap.release()
+        cv2.destroyAllWindows()
 
-        rate.sleep()
+    rate.sleep()
 
     
 
