@@ -204,7 +204,7 @@ def mainCamera():
         cropped_canny = region_of_interest(canny_image)
         lines = houghLines(cropped_canny,width)
         averaged_lines, slopeValues = average_slope_intercept(frame, lines)
-        if (slopeValues[0]) or (slopeValues[1]):
+        if (slopeValues[0]) and (slopeValues[1]):
             print("****** Me voy a mover")
             movement(slopeValues,pub_throttle,pub_steering)
             #print(lines)
