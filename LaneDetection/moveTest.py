@@ -62,8 +62,8 @@ def region_of_interest(canny):
    erosion = cv2.erode(masked_image,kernel,iterations = 2)
    dilation = cv2.dilate(masked_image,kernel,iterations = 2)
    #cv2.polylines(masked_image, trapezoid, True, 255, 2)
-   #return dilation
-   return erosion
+   return dilation
+   #return erosion
 
 def houghLines(cropped_canny):
    return cv2.HoughLinesP(cropped_canny, 3, np.pi/180, 3, 
