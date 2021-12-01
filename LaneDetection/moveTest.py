@@ -41,7 +41,7 @@ def canny(img):
         cv2.destroyAllWindows()
         exit()
 
-    kernel = np.ones((9,9),np.uint8)
+    kernel = np.ones((3,3),np.uint8)
     erosion = cv2.erode(img,kernel,iterations = 2)
     dilation = cv2.dilate(erosion,kernel,iterations = 2)
         
