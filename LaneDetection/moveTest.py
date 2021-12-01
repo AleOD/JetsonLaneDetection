@@ -40,7 +40,12 @@ def canny(img):
         cap.release()
         cv2.destroyAllWindows()
         exit()
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    kernel = np.ones((9,9),np.uint8)
+    erosion = cv2.erode(img,kernel,iterations = 2)
+    dilation = cv2.dilate(erosion,kernel,iterations = 2)
+        
+    gray = cv2.cvtColor(dilation, cv2.COLOR_BGR2GRAY)
     kernel = 101
     blur = cv2.GaussianBlur(gray,(kernel, kernel),0)
     canny = blur
