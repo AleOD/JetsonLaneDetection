@@ -100,7 +100,7 @@ def average_slope_intercept(image, lines):
     # y2 = 1
     if lines is None:
         #print("*************/n     mori   /n  ****************")
-        return None, None
+        return [0.0,0.0], [0.0,0.0]
     for line in lines:
         #print("*************/n No    mori   /n  ****************")
         x1,y1,x2,y2 = line.reshape(4)
@@ -108,7 +108,7 @@ def average_slope_intercept(image, lines):
         #print(x1,y1,x2,y2)
         if x1==x2 or y1==y2:
             #print("Valores iguales")
-            return None, None
+            return [0.0,0.0],[0.0,0.0]
         fit = np.polyfit((x1,x2), (y1,y2), 1)
         #print(fit)
         #print("After polyfit")
