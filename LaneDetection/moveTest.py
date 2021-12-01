@@ -121,17 +121,19 @@ def average_slope_intercept(image, lines):
 
     if left_fit == []:
         #print("******************* No hubo izquierdo ****************")
-        averaged_lines = None
+        boolLeft=0
         slopeLeft = 0.0
         #return None, None
     else:
         #print("******************* Si hubo izquierdo ****************")    
         left_fit_average  = np.average(left_fit, axis=0)    
         left_line,slopeLeft  = make_points(image, left_fit_average)
+        boolLeft=1
         #print(left_line)
 
     if right_fit == []:
         #print("******************* No hubo derecho ****************")
+        boolRight=0
         averaged_lines = None
         slopeRight = 0.0
         #return None, None
@@ -139,10 +141,14 @@ def average_slope_intercept(image, lines):
         #print("******************* Si hubo derecho ****************")
         right_fit_average = np.average(right_fit, axis=0)
         right_line,slopeRight = make_points(image, right_fit_average)
+        boolRight=1
         #print(right_line)
 
     slopeValues = [slopeLeft,slopeRight]
-    averaged_lines = [left_line, right_line]
+    if (boolRight==1) and (boolLeft==1):
+        averaged_lines = [left_line, right_line]
+    else:
+        averaged_lines = None
     return averaged_lines, slopeValues
 
 
