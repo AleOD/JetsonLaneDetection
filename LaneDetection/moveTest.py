@@ -2,10 +2,7 @@
 
 import cv2
 import numpy as np
-import rospy
-from std_msgs.msg import Float32
 
-a=0
 
 #Gstreamer pipeline settings
 def gstreamer_pipeline(
@@ -61,12 +58,15 @@ def region_of_interest(canny):
    cv2.fillPoly(mask, trapezoid, 255)
    #cv2.fillPoly(mask, trapezoid, 0)
    masked_image = cv2.bitwise_and(canny, mask)
+   kernel = np.ones((5,5),np.uint8)
+   erosion = cv2.erode(masked_image,kernel,iterations = 2)
+   dilation = cv2.dilate(masked_image,kernel,iterations = 2)
    #cv2.polylines(masked_image, trapezoid, True, 255, 2)
-   return masked_image
+   return dilation
 
-def houghLines(cropped_canny,width):
-   return cv2.HoughLinesP(cropped_canny, 2, np.pi/180, 3, 
-       np.array([]), minLineLength=40, maxLineGap=5)
+def houghLines(cropped_canny):
+   return cv2.HoughLinesP(cropped_canny, 3, np.pi/180, 3, 
+       np.array([]), minLineLength=40, maxLineGap=10)
 def addWeighted(frame, line_image):
     return cv2.addWeighted(frame, 0.8, line_image, 1, 0.0)
  
@@ -164,8 +164,6 @@ def movement(slopeVal,pub_throttle,pub_steering):
         #print("**********pendientes iguales")
         pub_steering.publish(0.0)
 
-
-
 h_min = 0
 h_max = 20
 s_min = 50
@@ -174,66 +172,60 @@ v_min = 110
 v_max = 255
 
 
+cap = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), cv2.CAP_GSTREAMER)
+#cap = cv2.VideoCapture(0)
 
 
-def mainCamera():
-    cap = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), cv2.CAP_GSTREAMER)
-    pub_throttle = rospy.Publisher('throttle', Float32, queue_size=8)
-    pub_steering = rospy.Publisher('steering', Float32, queue_size=8)
-    rospy.init_node('teleop', anonymous=True)
-    rate = rospy.Rate(10) # 10hz
 
-    #pub_throttle.publish(-1.0)
-    #pub_steering.publish(-1.0)
+#pub_throttle.publish(-1.0)
+#pub_steering.publish(-1.0)
 
-    while not rospy.is_shutdown() or a==1:
-        #Prefiltrado Naranja    
-        ret,frame = cap.read()
-
-        # height = frame.shape[0]
-        width = frame.shape[1]
-
-        imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-        lower = np.array([h_min, s_min, v_min])
-        upper = np.array([h_max, s_max, v_max])
-        mask = cv2.inRange(imgHSV, lower, upper)
-        imgResult = cv2.bitwise_and(frame, frame, mask=mask)
+while True:
+    #Prefiltrado Naranja    
+    ret,frame = cap.read()
 
 
-        canny_image = canny(imgResult)
-        cropped_canny = region_of_interest(canny_image)
-        lines = houghLines(cropped_canny,width)
-        averaged_lines, slopeValues = average_slope_intercept(frame, lines)
-        if (slopeValues[0] == 0.0) or (slopeValues[1] == 0.0):
-            print("NO me voy a mover*****************")
-            pub_throttle.publish(0.0)
-            
-        else:
-            
-            print("****** Me voy a mover")
-            movement(slopeValues,pub_throttle,pub_steering)
-            #print(lines)
-        line_image = display_lines(frame, averaged_lines)
-        #line_image = display_lines(frame, lines)
-        combo_image = addWeighted(frame, line_image)
-        #cv2.imshow("Canny",canny_image)
-        #cv2.imshow("ROI",cropped_canny)
+    imgHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    lower = np.array([h_min, s_min, v_min])
+    upper = np.array([h_max, s_max, v_max])
+    mask = cv2.inRange(imgHSV, lower, upper)
+    imgResult = cv2.bitwise_and(frame, frame, mask=mask)
 
-        cv2.imshow("result", combo_image)
-        cv2.imshow("Oranged",imgResult)
-        cv2.imshow("Normal",frame)
-            
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            a=1
-            cap.release()
-            cv2.destroyAllWindows()
 
-        rate.sleep()
+    canny_image = canny(imgResult)
+    cropped_canny = region_of_interest(canny_image)
+    lines = houghLines(cropped_canny)
+    averaged_lines, slopeValues = average_slope_intercept(frame, lines)
+    if (slopeValues[0] == 0.0) or (slopeValues[1] == 0.0):
+        print("NO me voy a mover*****************")
+        #pub_throttle.publish(0.0)
+        
+    else:
+        
+        print("****** Me voy a mover")
+        #movement(slopeValues,pub_throttle,pub_steering)
+        #print(lines)
+
+    line_image = display_lines(frame, averaged_lines)
+    #line_image = display_lines(frame, lines)
+    combo_image = addWeighted(frame, line_image)
+    #cv2.imshow("Canny",canny_image)
+    #cv2.imshow("ROI",cropped_canny)
+
+    cv2.imshow("result", combo_image)
+    cv2.imshow("Oranged dilated etc.",imgResult)
+    cv2.imshow("Normal",frame)
+        
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
 
     
 
-if __name__ == '__main__':
-    try:
-        mainCamera()
-    except rospy.ROSInterruptException:
-        pass
+# if __name__ == '__main__':
+    # try:
+        # mainCamera()
+    # except rospy.ROSInterruptException:
+        # pass
