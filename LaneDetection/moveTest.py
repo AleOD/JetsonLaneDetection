@@ -158,14 +158,15 @@ def average_slope_intercept(image, lines):
 
     slopeValues = [slopeLeft,slopeRight]
 
+    if boolLeft == 1:
+        averaged_lines = [left_line, None]
+    if boolRight == 1:
+        averaged_lines = [None, right_line]
     if (boolRight==1) and (boolLeft==1):
         averaged_lines = [left_line, right_line]
-    elif (boolRight==0) and (boolLeft==0):
+    if (boolRight==0) and (boolLeft==0):
         averaged_lines = None
-    elif boolLeft == 1:
-        averaged_lines = [left_line, None]
-    elif boolLeft == 1:
-        averaged_lines = [None, right_line]
+    
 
     return averaged_lines, slopeValues
 
