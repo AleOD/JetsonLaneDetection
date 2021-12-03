@@ -185,49 +185,34 @@ def movement(slopeVal,pub_throttle,pub_steering):
     print("********pendiente derecha")
     print(slopeRight)
 
-    averageSlope=slopeRight+slopeLeft
 
-    if slopeLeft!=0 and slopeRight!=0:
-        if averageSlope>0.95:
-            pub_steering.publish(-0.95)
+    if -slopeLeft >= 0.8: 
+        if slopeRight >= 0.8: #1
+            pub_steering.publish(0.0)
             pub_throttle.publish(-0.2)
-        elif averageSlope<-0.95:
-            pub_steering.publish(0.95)
+        elif slopeRight == 0.0: #3
+            pub_steering.publish(0.2)
             pub_throttle.publish(-0.2)
-        else:
-            pub_steering.publish(averageSlope)
+        else: #2
+            pub_steering.publish(-0.5)
             pub_throttle.publish(-0.2)
-
-    # if -slopeLeft>=0.8 and slopeRight>=0.8: #1
-    #     pub_steering.publish(0.0)
-    #     pub_throttle.publish(-0.2)
-    # if (-slopeLeft or slopeRight)>=0.8 and (-slopeLeft or slopeRight)<0.8: #2,4
-    #     if -slopeLeft<0.8: #4
-    #         pub_steering.publish(0.90)
-    #         pub_throttle.publish(-0.2)
-    #     if slopeRight<0.8: #2
-    #         pub_steering.publish(-0.90)
-    #         pub_throttle.publish(-0.2)
-
-    # if -slopeLeft>=0.8 and slopeRight==0.0:#3
-    #     pub_steering.publish(0.0)
-    #     pub_throttle.publish(-0.2)
-    # if -slopeLeft<0.8 and -slopeLeft>0.0 and slopeRight==0.0: #7
-    #     pub_steering.publish(0.90)
-    #     pub_throttle.publish(-0.2)
-    # if -slopeLeft==0.0 and slopeRight>=0.8: #5
-    #     pub_steering.publish(0.0)
-    #     pub_throttle.publish(-0.2)
-    # if -slopeLeft==0.0 and slopeRight<0.8 and slopeRight>0.0: #8
-    #     pub_steering.publish(-0.90)
-    #     pub_throttle.publish(-0.2)
-
-    # if -slopeLeft<0.8 and slopeRight<0.8 and -slopeLeft>0.0 and slopeRight>0.0: #9
-    #     pub_steering.publish(0.0)
-    #     pub_throttle.publish(0.3)
-
-        
-
+    elif slopeRight >= 0.8:
+        if slopeLeft == 0.0: #5
+            pub_steering.publish(-0.2)
+            pub_throttle.publish(-0.2)
+        else: # 4
+            pub_steering.publish(0.5)
+            pub_throttle.publish(-0.2)
+    elif -slopeLeft < 0.8 and -slopeLeft>0.0:
+        if slopeRight == 0.0: #7
+            pub_steering.publish(0.7)
+            pub_throttle.publish(-0.2)
+        else: # 9
+            pub_steering.publish(0.0)
+            pub_throttle.publish(0.4)
+    elif -slopeLeft == 0.0: #8
+        pub_steering.publish(-0.7)
+        pub_throttle.publish(-0.2)
 
 
 h_min = 0
