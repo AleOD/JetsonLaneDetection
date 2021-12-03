@@ -194,24 +194,24 @@ def movement(slopeVal,pub_throttle,pub_steering):
             pub_steering.publish(0.2)
             pub_throttle.publish(-0.2)
         else: #2
-            pub_steering.publish(-0.5)
+            pub_steering.publish(-0.3)
             pub_throttle.publish(-0.2)
     elif slopeRight >= 0.8:
         if slopeLeft == 0.0: #5
             pub_steering.publish(-0.2)
             pub_throttle.publish(-0.2)
         else: # 4
-            pub_steering.publish(0.5)
+            pub_steering.publish(0.3)
             pub_throttle.publish(-0.2)
     elif -slopeLeft < 0.8 and -slopeLeft>0.0:
         if slopeRight == 0.0: #7
-            pub_steering.publish(0.7)
+            pub_steering.publish(0.5)
             pub_throttle.publish(-0.2)
         else: # 9
             pub_steering.publish(0.0)
             pub_throttle.publish(0.4)
     elif -slopeLeft == 0.0: #8
-        pub_steering.publish(-0.7)
+        pub_steering.publish(-0.5)
         pub_throttle.publish(-0.2)
 
 
