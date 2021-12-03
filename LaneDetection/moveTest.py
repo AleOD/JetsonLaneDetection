@@ -180,37 +180,45 @@ def movement(slopeVal,pub_throttle,pub_steering):
     slopeLeft=slopeVal[0]
     slopeRight=slopeVal[1]
     #pub_throttle.publish(-0.3)
-    print("********pendiente izquierda")
-    print(slopeLeft)
-    print("********pendiente derecha")
-    print(slopeRight)
+    #print("********pendiente izquierda")
+    #print(slopeLeft)
+    #print("********pendiente derecha")
+    #print(slopeRight)
 
 
     if -slopeLeft >= 0.8: 
         if slopeRight >= 0.8: #1
+            print("***Caso 1")
             pub_steering.publish(0.0)
             pub_throttle.publish(-0.2)
         elif slopeRight == 0.0: #3
+            print("***Caso 3")
             pub_steering.publish(0.2)
             pub_throttle.publish(-0.2)
         else: #2
+            print("***Caso 2")
             pub_steering.publish(-0.3)
             pub_throttle.publish(-0.2)
     elif slopeRight >= 0.8:
         if slopeLeft == 0.0: #5
+            print("***Caso 5")
             pub_steering.publish(-0.2)
             pub_throttle.publish(-0.2)
         else: # 4
+            print("***Caso 4")
             pub_steering.publish(0.3)
             pub_throttle.publish(-0.2)
     elif -slopeLeft < 0.8 and -slopeLeft>0.0:
         if slopeRight == 0.0: #7
+            print("***Caso 7")
             pub_steering.publish(0.5)
             pub_throttle.publish(-0.2)
         else: # 9
+            print("***Caso 9")
             pub_steering.publish(0.0)
             pub_throttle.publish(0.4)
     elif -slopeLeft == 0.0: #8
+        print("***Caso 8")
         pub_steering.publish(-0.5)
         pub_throttle.publish(-0.2)
 
@@ -254,12 +262,12 @@ def mainCamera():
         lines = houghLines(cropped_canny,width)
         averaged_lines, slopeValues = average_slope_intercept(frame, lines)
         if (slopeValues[0] == 0.0) and (slopeValues[1] == 0.0):
-            print("NO me voy a mover*****************")
+            #print("NO me voy a mover*****************")
             pub_throttle.publish(-0.0)
             
         else:
             
-            print("****** Me voy a mover")
+            #print("****** Me voy a mover")
             movement(slopeValues,pub_throttle,pub_steering)
             #print(lines)
         #line_image = display_lines(frame, averaged_lines)
