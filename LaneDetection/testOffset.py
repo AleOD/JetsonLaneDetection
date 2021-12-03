@@ -11,6 +11,6 @@ while True:
 
     val = input()
     pub_throttle.publish(-0.2)
-    pub_steering.publish(val)
+    pub_steering.publish(float(val))
 
     rate.sleep()
