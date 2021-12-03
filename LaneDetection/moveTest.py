@@ -185,29 +185,29 @@ def movement(slopeVal,pub_throttle,pub_steering):
     print("********pendiente derecha")
     print(slopeRight)
 
-    if slopeLeft>=0.8 and slopeRight>=0.8: #1
+    if -slopeLeft>=0.8 and slopeRight>=0.8: #1
         pub_steering.publish(0.0)
         pub_throttle.publish(-0.2)
-    if (slopeLeft or slopeRight)>=0.8 and (slopeLeft or slopeRight)<0.8: #2,4
-        if slopeLeft<0.8: #4
+    if (-slopeLeft or slopeRight)>=0.8 and (-slopeLeft or slopeRight)<0.8: #2,4
+        if -slopeLeft<0.8: #4
             pub_steering.publish(0.90)
             pub_throttle.publish(-0.2)
         if slopeRight<0.8: #2
             pub_steering.publish(-0.90)
             pub_throttle.publish(-0.2)
-    if slopeLeft>=0.8 and slopeRight==0.0:#3
+    if -slopeLeft>=0.8 and slopeRight==0.0:#3
         pub_steering.publish(0.0)
         pub_throttle.publish(-0.2)
-    if slopeLeft<0.8 and slopeLeft>0.0 and slopeRight==0.0: #7
+    if -slopeLeft<0.8 and -slopeLeft>0.0 and slopeRight==0.0: #7
         pub_steering.publish(0.90)
         pub_throttle.publish(-0.2)
-    if slopeLeft==0.0 and slopeRight>=0.8: #5
+    if -slopeLeft==0.0 and slopeRight>=0.8: #5
         pub_steering.publish(0.0)
         pub_throttle.publish(-0.2)
-    if slopeLeft==0.0 and slopeRight<0.8 and slopeRight>0.0: #8
+    if -slopeLeft==0.0 and slopeRight<0.8 and slopeRight>0.0: #8
         pub_steering.publish(-0.90)
         pub_throttle.publish(-0.2)
-    if slopeLeft<0.8 and slopeRight<0.8 and slopeLeft>0.0 and slopeRight>0.0: #9
+    if -slopeLeft<0.8 and slopeRight<0.8 and -slopeLeft>0.0 and slopeRight>0.0: #9
         pub_steering.publish(0.0)
         pub_throttle.publish(0.3)
         
