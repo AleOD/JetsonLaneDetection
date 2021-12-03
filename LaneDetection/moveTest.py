@@ -266,7 +266,7 @@ def mainCamera():
         #line_image = display_lines(frame, lines)
         #combo_image = addWeighted(frame, line_image)
         #cv2.imshow("Canny",canny_image)
-        cv2.imshow("ROI",cropped_canny)
+        #cv2.imshow("ROI",cropped_canny)
 
         #cv2.imshow("result", combo_image)
         #cv2.imshow("Oranged",imgResult)
