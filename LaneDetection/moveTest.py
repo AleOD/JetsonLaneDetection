@@ -108,7 +108,7 @@ def canny(img):
     canny = blur
     #canny = cv2.Canny(gray, 4, 100,L2gradient = True)
     final = cv2.Canny(blur, 500, 475)
-    return final
+    return gray
 
 def region_of_interest(canny):
    height = canny.shape[0]
