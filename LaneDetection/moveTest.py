@@ -7,14 +7,17 @@ from std_msgs.msg import Float32
 
 #Global variables
 a=0
-Setpoint = 0
-kp = 8
-ki = 0.2
-kd = 0
 error = 0
 cumError = 0
 rateError = 0
 lastError = 0
+Setpoint = 0
+kp = 8
+ki = 0.2
+kd = 0
+outMin = -20
+outMax = 20
+throttleVal = -0.2
 
 # Function to mapping values
 def mapFnc(value, fromMin, fromMax, toMin, toMax):
@@ -44,7 +47,7 @@ def computePID(inp):
     #print(rateError)
     print("Out")
     print(out)
-    outmapped = mapFnc(out, -20, 20, -0.95, 0.95)
+    outmapped = mapFnc(out, outMin, outMax, -0.95, 0.95)
     print("Out Mapeado")
     print(outmapped)
     print
@@ -236,7 +239,7 @@ def movement(slopeVal,pub_throttle,pub_steering):
     #print(slopeRight)
     steeringVal = computePID(slopeLeft+slopeRight)
     pub_steering.publish(steeringVal)
-    pub_throttle.publish(-0.2)
+    pub_throttle.publish(throttleVal)
 
     # if -slopeLeft >= 0.8: 
     #     if slopeRight >= 0.8: #1
