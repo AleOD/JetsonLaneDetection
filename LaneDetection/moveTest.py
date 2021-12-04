@@ -9,7 +9,7 @@ from std_msgs.msg import Float32
 a=0
 Setpoint = 0
 kp = 10
-ki = 0.5
+ki = 0.2
 kd = 0
 error = 0
 cumError = 0
@@ -326,7 +326,7 @@ def mainCamera():
         #line_image = display_lines(frame, lines)
         #combo_image = addWeighted(frame, line_image)
         #cv2.imshow("Canny",canny_image)
-        #cv2.imshow("ROI",cropped_canny)
+        cv2.imshow("ROI",cropped_canny)
 
         #cv2.imshow("result", combo_image)
         #cv2.imshow("Oranged",imgResult)
