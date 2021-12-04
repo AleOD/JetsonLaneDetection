@@ -192,43 +192,43 @@ def movement(slopeVal,pub_throttle,pub_steering):
     #print(slopeLeft)
     #print("********pendiente derecha")
     #print(slopeRight)
+    computePID(slopeLeft+slopeRight)
 
-
-    if -slopeLeft >= 0.8: 
-        if slopeRight >= 0.8: #1
-            print("***Caso 1")
-            pub_steering.publish(0.0)
-            pub_throttle.publish(-0.2)
-        elif slopeRight == 0.0: #3
-            print("***Caso 3")
-            pub_steering.publish(0.1)
-            pub_throttle.publish(-0.2)
-        else: #2
-            print("***Caso 2")
-            pub_steering.publish(-0.3)
-            pub_throttle.publish(-0.2)
-    elif slopeRight >= 0.8:
-        if slopeLeft == 0.0: #5
-            print("***Caso 5")
-            pub_steering.publish(-0.1)
-            pub_throttle.publish(-0.2)
-        else: # 4
-            print("***Caso 4")
-            pub_steering.publish(0.3)
-            pub_throttle.publish(-0.2)
-    elif -slopeLeft < 0.8 and -slopeLeft>0.0:
-        if slopeRight == 0.0: #7
-            print("***Caso 7")
-            pub_steering.publish(0.6)
-            pub_throttle.publish(-0.2)
-        else: # 9
-            print("***Caso 9")
-            pub_steering.publish(0.0)
-            pub_throttle.publish(0.4)
-    elif -slopeLeft == 0.0: #8
-        print("***Caso 8")
-        pub_steering.publish(-0.6)
-        pub_throttle.publish(-0.2)
+    # if -slopeLeft >= 0.8: 
+    #     if slopeRight >= 0.8: #1
+    #         print("***Caso 1")
+    #         pub_steering.publish(0.0)
+    #         pub_throttle.publish(-0.2)
+    #     elif slopeRight == 0.0: #3
+    #         print("***Caso 3")
+    #         pub_steering.publish(0.1)
+    #         pub_throttle.publish(-0.2)
+    #     else: #2
+    #         print("***Caso 2")
+    #         pub_steering.publish(-0.3)
+    #         pub_throttle.publish(-0.2)
+    # elif slopeRight >= 0.8:
+    #     if slopeLeft == 0.0: #5
+    #         print("***Caso 5")
+    #         pub_steering.publish(-0.1)
+    #         pub_throttle.publish(-0.2)
+    #     else: # 4
+    #         print("***Caso 4")
+    #         pub_steering.publish(0.3)
+    #         pub_throttle.publish(-0.2)
+    # elif -slopeLeft < 0.8 and -slopeLeft>0.0:
+    #     if slopeRight == 0.0: #7
+    #         print("***Caso 7")
+    #         pub_steering.publish(0.6)
+    #         pub_throttle.publish(-0.2)
+    #     else: # 9
+    #         print("***Caso 9")
+    #         pub_steering.publish(0.0)
+    #         pub_throttle.publish(0.4)
+    # elif -slopeLeft == 0.0: #8
+    #     print("***Caso 8")
+    #     pub_steering.publish(-0.6)
+    #     pub_throttle.publish(-0.2)
 
 
 h_min = 0
@@ -310,7 +310,7 @@ def computePID(inp):
     print(rateError)
     print("Out")
     print(out)
-    return out #have function return the PID output
+    #return out #have function return the PID output
 }
     
 
