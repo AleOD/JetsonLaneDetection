@@ -13,7 +13,7 @@ ki = 1
 kd = 1
 
 #Methods
-def computePID(inp)
+def computePID(inp):
 
 #Gstreamer pipeline settings
 def gstreamer_pipeline(
