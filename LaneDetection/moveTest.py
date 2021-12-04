@@ -18,8 +18,9 @@ kd = 8
 outMin = -40
 outMax = 40
 throttleVal = -0.16
-#Grafica
-dataList = []
+#Graph
+dataListErrOut = []
+dataListSlo = []
 
 # Function to mapping values
 def mapFnc(value, fromMin, fromMax, toMin, toMax):
@@ -54,7 +55,7 @@ def computePID(inp):
     print(outmapped)
     print
     print
-    dataList.append(str(error)+"\t" + str(out) + "\t" + str(outmapped))
+    dataListErrOut.append(str(error)+"\t" + str(out) + "\t" + str(outmapped))
     if(outmapped > 0.95):
         return float(0.95)
     elif(outmapped < -0.95):
@@ -240,6 +241,7 @@ def movement(slopeVal,pub_throttle,pub_steering):
     #print(slopeLeft)
     #print("********pendiente derecha")
     #print(slopeRight)
+    dataListSlo.append(str(slopeLeft) + str(slopeRight) + str(slopeLeft+slopeRight))
     steeringVal = computePID(slopeLeft+slopeRight)
     pub_steering.publish(steeringVal)
     pub_throttle.publish(throttleVal)
@@ -342,11 +344,15 @@ def mainCamera():
             a=1
             cap.release()
             cv2.destroyAllWindows()
-            with open("data.txt", "w") as f:
-                for elemento in dataList:
+            with open("dataErrOut.txt", "w") as f:
+                for elemento in dataListErrOut:
                     f.write(elemento)
                     f.write("\n")
-
+            
+            with open("dataSlo.txt", "w") as f:
+                for elemento in dataListSlo:
+                    f.write(elemento)
+                    f.write("\n")/
         rate.sleep()
 
     
