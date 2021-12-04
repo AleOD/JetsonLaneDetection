@@ -8,8 +8,8 @@ from std_msgs.msg import Float32
 #Global variables
 a=0
 Setpoint = 0
-kp = 5
-ki = 2
+kp = 10
+ki = 3
 kd = 0
 error = 0
 cumError = 0
@@ -44,7 +44,7 @@ def computePID(inp):
     #print(rateError)
     print("Out")
     print(out)
-    outmapped = mapFnc(out, -10, 10, -0.95, 0.95)
+    outmapped = mapFnc(out, -20, 20, -0.95, 0.95)
     print("Out Mapeado")
     print(outmapped)
     print
