@@ -340,7 +340,7 @@ def mainCamera():
             #print("NO me voy a mover*****************")
             pub_throttle.publish(-0.0)
             
-        else:
+        #else:
             
             #print("****** Me voy a mover")
             #movement(slopeValues,pub_throttle,pub_steering)
