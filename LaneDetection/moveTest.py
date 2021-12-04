@@ -9,7 +9,7 @@ from std_msgs.msg import Float32
 a=0
 Setpoint = 0
 kp = 10
-ki = 3
+ki = 0
 kd = 0
 error = 0
 cumError = 0
