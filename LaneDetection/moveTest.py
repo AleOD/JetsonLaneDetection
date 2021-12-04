@@ -50,11 +50,11 @@ def computePID(inp):
     print
     print
     if(outmapped > 9.5):
-        return 9.5
+        return float(9.5)
     elif(outmapped < -9.5):
-        return -9.5
+        return float(-9.5)
     else:
-        return outmapped
+        return float(outmapped)
     #return out #have function return the PID output
 
 #Gstreamer pipeline settings
@@ -234,7 +234,9 @@ def movement(slopeVal,pub_throttle,pub_steering):
     #print(slopeLeft)
     #print("********pendiente derecha")
     #print(slopeRight)
-    computePID(slopeLeft+slopeRight)
+    steeringVal = computePID(slopeLeft+slopeRight)
+    pub_steering.publish(steeringVal)
+    pub_throttle.publish(-0.2)
 
     # if -slopeLeft >= 0.8: 
     #     if slopeRight >= 0.8: #1
