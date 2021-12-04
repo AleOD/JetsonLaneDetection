@@ -127,7 +127,7 @@ def region_of_interest(canny):
    return masked_image
 
 def houghLines(cropped_canny,width):
-   return cv2.HoughLinesP(cropped_canny, 1, np.pi/180, 3, 
+   return cv2.HoughLinesP(cropped_canny, 1, np.pi/180, 2, 
        np.array([]), minLineLength=40, maxLineGap=5)
 def addWeighted(frame, line_image):
     return cv2.addWeighted(frame, 0.8, line_image, 1, 0.0)
@@ -345,13 +345,13 @@ def mainCamera():
             #print("****** Me voy a mover")
             #movement(slopeValues,pub_throttle,pub_steering)
             #print(lines)
-        #line_image = display_lines(frame, averaged_lines)
-        line_image = display_lines(frame, lines)
+        line_image = display_lines(frame, averaged_lines)
+        #line_image = display_lines(frame, lines) testing
         combo_image = addWeighted(frame, line_image)
         cv2.imshow("Canny",canny_image)
         cv2.imshow("ROI",cropped_canny)
 
-        cv2.imshow("result", combo_image)
+        #cv2.imshow("result", combo_image)
         #cv2.imshow("Oranged",imgResult)
         #cv2.imshow("Normal",frame)
             
