@@ -12,11 +12,11 @@ cumError = 0
 rateError = 0
 lastError = 0
 Setpoint = 0
-kp = 8
+kp = 6
 ki = 0.2
 kd = 4
-outMin = -20
-outMax = 20
+outMin = -16
+outMax = 16
 throttleVal = -0.16
 #Grafica
 dataList = []
