@@ -211,7 +211,7 @@ def movement(slopeVal,pub_throttle,pub_steering):
     elif -slopeLeft < 0.8 and -slopeLeft>0.0:
         if slopeRight == 0.0: #7
             print("***Caso 7")
-            pub_steering.publish(0.8)
+            pub_steering.publish(0.6)
             pub_throttle.publish(-0.2)
         else: # 9
             print("***Caso 9")
@@ -219,7 +219,7 @@ def movement(slopeVal,pub_throttle,pub_steering):
             pub_throttle.publish(0.4)
     elif -slopeLeft == 0.0: #8
         print("***Caso 8")
-        pub_steering.publish(-0.8)
+        pub_steering.publish(-0.6)
         pub_throttle.publish(-0.2)
 
 
