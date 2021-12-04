@@ -28,7 +28,6 @@ def computePID(inp):
     print("Out")
     print(out)
     #return out #have function return the PID output
-}
 
 #Gstreamer pipeline settings
 def gstreamer_pipeline(
