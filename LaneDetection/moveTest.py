@@ -11,6 +11,8 @@ Setpoint = 0
 kp = 1
 ki = 1
 kd = 1
+cumError = 0
+lastError = 0
 
 # PID
 def computePID(inp):
