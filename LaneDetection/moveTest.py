@@ -15,8 +15,8 @@ setpoint = 1.0
 kp = 6
 ki = 2
 kd = 8
-outMin = -20
-outMax = 20
+outMin = -15
+outMax = 15
 throttleVal = -0.16
 #Graph
 dataListErrOut = []
