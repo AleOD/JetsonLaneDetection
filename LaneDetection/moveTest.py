@@ -8,7 +8,7 @@ from std_msgs.msg import Float32
 #Global variables
 a=0
 Setpoint = 0
-kp = 10
+kp = 8
 ki = 0.2
 kd = 0
 error = 0
