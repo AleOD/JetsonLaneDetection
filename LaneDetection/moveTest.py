@@ -8,9 +8,9 @@ from std_msgs.msg import Float32
 #Global variables
 a=0
 Setpoint = 0
-kp = 1
+kp = 3
 ki = 1
-kd = 1
+kd = 0
 error = 0
 cumError = 0
 rateError = 0
@@ -44,15 +44,15 @@ def computePID(inp):
     #print(rateError)
     print("Out")
     print(out)
-    outmapped = mapFnc(out, -100, 100, -9.5, 9.5)
+    outmapped = mapFnc(out, -100, 100, -0.95, 0.95)
     print("Out Mapeado")
     print(outmapped)
     print
     print
-    if(outmapped > 9.5):
-        return float(9.5)
-    elif(outmapped < -9.5):
-        return float(-9.5)
+    if(outmapped > 0.95):
+        return float(0.95)
+    elif(outmapped < -0.95):
+        return float(-0.95)
     else:
         return float(outmapped)
     #return out #have function return the PID output
