@@ -241,10 +241,10 @@ def movement(slopeVal,pub_throttle,pub_steering):
     #print(slopeLeft)
     #print("********pendiente derecha")
     #print(slopeRight)
-    dataListSlo.append(str(slopeLeft) + str(slopeRight) + str(slopeLeft+slopeRight))
+    dataListSlo.append(str(slopeLeft) + "\t" + str(slopeRight)  + "\t" + str(slopeLeft+slopeRight))
     steeringVal = computePID(slopeLeft+slopeRight)
-    pub_steering.publish(steeringVal)
-    pub_throttle.publish(throttleVal)
+    #pub_steering.publish(steeringVal)
+    #pub_throttle.publish(throttleVal)
 
     # if -slopeLeft >= 0.8: 
     #     if slopeRight >= 0.8: #1
