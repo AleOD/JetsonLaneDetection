@@ -50,7 +50,7 @@ def computePID(inp):
     ##print(rateError)
     #print("Out")
     #print(out)
-    #outmapped = mapFnc(out, outMin, outMax, -0.95, 0.95)
+    outmapped = mapFnc(out, outMin, outMax, -0.95, 0.95)
     #print("Out Mapeado")
     #print(outmapped)
     #print
@@ -343,7 +343,7 @@ def mainCamera():
         else:
             
             #print("****** Me voy a mover")
-            movement(slopeValues,pub_throttle,pub_steering)
+            #movement(slopeValues,pub_throttle,pub_steering)
             #print(lines)
         #line_image = display_lines(frame, averaged_lines)
         line_image = display_lines(frame, lines)
