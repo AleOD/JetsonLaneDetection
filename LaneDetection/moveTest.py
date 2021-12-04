@@ -18,6 +18,8 @@ kd = 1
 outMin = -20
 outMax = 20
 throttleVal = -0.16
+#Grafica
+dataList = []
 
 # Function to mapping values
 def mapFnc(value, fromMin, fromMax, toMin, toMax):
@@ -52,8 +54,7 @@ def computePID(inp):
     print(outmapped)
     print
     print
-    with open('data.txt', 'w') as f:
-        f.write(str(error)+"\t" + str(out) + "\t" + str(outmapped) + "\n")
+    dataList.append(str(error)+"\t" + str(out) + "\t" + str(outmapped))
     if(outmapped > 0.95):
         return float(0.95)
     elif(outmapped < -0.95):
@@ -341,6 +342,10 @@ def mainCamera():
             a=1
             cap.release()
             cv2.destroyAllWindows()
+            with open("data.txt", "w") as f:
+                for elemento in dataList:
+                    f.write(elemento)
+                    f.write("\n")
 
         rate.sleep()
 
