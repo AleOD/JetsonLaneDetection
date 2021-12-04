@@ -351,7 +351,7 @@ def mainCamera():
         cv2.imshow("Canny",canny_image)
         cv2.imshow("ROI",cropped_canny)
 
-        #cv2.imshow("result", combo_image)
+        cv2.imshow("result", combo_image)
         #cv2.imshow("Oranged",imgResult)
         #cv2.imshow("Normal",frame)
             
