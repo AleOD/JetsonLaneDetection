@@ -44,7 +44,7 @@ def computePID(inp):
     #print(rateError)
     print("Out")
     print(out)
-    outmapped = mapFnc(out, -20, 20, -0.95, 0.95)
+    outmapped = mapFnc(out, -30, 30, -0.95, 0.95)
     print("Out Mapeado")
     print(outmapped)
     print
