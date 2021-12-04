@@ -5,7 +5,64 @@ import numpy as np
 import rospy
 from std_msgs.msg import Float32
 
+#Global variables
 a=0
+error = 0
+cumError = 0
+rateError = 0
+lastError = 0
+setpoint = 1.0
+kp = 6
+ki = 2
+kd = 8
+outMin = -15
+outMax = 15
+throttleVal = -0.16
+#Graph
+dataListErrOut = []
+dataListSlo = []
+
+# Function to mapping values
+def mapFnc(value, fromMin, fromMax, toMin, toMax):
+    # Figure out how 'wide' each range is
+    fromSpan = fromMax - fromMin
+    toSpan = toMax - toMin
+
+    # Convert the left range into a 0-1 range (float)
+    valueScaled = float(value - fromMin) / float(fromSpan)
+
+    # Convert the 0-1 range into a value in the right range.
+    return toMin + (valueScaled * toSpan)
+
+# PID
+def computePID(inp):
+    global cumError, lastError
+    T = 0.1
+    error = setpoint - inp  #Determine error
+    cumError += error*T     #compute integral
+    rateError = (error - lastError)/T # compute derivative
+    
+    out = kp*error + ki*cumError + kd*rateError #PID output
+    lastError = error   #remember current error
+    print("Errors: ")
+    print(error)
+    #print(cumError)
+    #print(rateError)
+    print("Out")
+    print(out)
+    outmapped = mapFnc(out, outMin, outMax, -0.95, 0.95)
+    print("Out Mapeado")
+    print(outmapped)
+    print
+    print
+    dataListErrOut.append(str(error)+"\t" + str(out) + "\t" + str(outmapped))
+    if(outmapped > 0.95):
+        return float(0.95)
+    elif(outmapped < -0.95):
+        return float(-0.95)
+    else:
+        return float(outmapped)
+    #return out #have function return the PID output
 
 #Gstreamer pipeline settings
 def gstreamer_pipeline(
@@ -184,43 +241,59 @@ def movement(slopeVal,pub_throttle,pub_steering):
     #print(slopeLeft)
     #print("********pendiente derecha")
     #print(slopeRight)
+    dataListSlo.append(str(slopeLeft) + "\t" + str(slopeRight)  + "\t" + str(slopeLeft+slopeRight))
 
+    steeringVal = 0.0
+    if((-slopeLeft > setpoint) and (slopeRight > setpoint)):
+        steeringVal = computePID(setpoint)
+    elif(-slopeLeft > 0.0 and -slopeLeft < setpoint):
+        steeringVal = computePID(-slopeLeft)
+    elif(slopeRight > 0.0 and slopeRight < setpoint):
+        steeringVal = computePID(slopeRight)
+    elif(-slopeLeft > setpoint and slopeRight==0):
+        steeringVal = 0.2
+    elif(slopeRight > setpoint and slopeLeft==0):
+        steeringVal = -0.2
 
-    if -slopeLeft >= 0.8: 
-        if slopeRight >= 0.8: #1
-            print("***Caso 1")
-            pub_steering.publish(0.0)
-            pub_throttle.publish(-0.2)
-        elif slopeRight == 0.0: #3
-            print("***Caso 3")
-            pub_steering.publish(0.1)
-            pub_throttle.publish(-0.2)
-        else: #2
-            print("***Caso 2")
-            pub_steering.publish(-0.3)
-            pub_throttle.publish(-0.2)
-    elif slopeRight >= 0.8:
-        if slopeLeft == 0.0: #5
-            print("***Caso 5")
-            pub_steering.publish(-0.1)
-            pub_throttle.publish(-0.2)
-        else: # 4
-            print("***Caso 4")
-            pub_steering.publish(0.3)
-            pub_throttle.publish(-0.2)
-    elif -slopeLeft < 0.8 and -slopeLeft>0.0:
-        if slopeRight == 0.0: #7
-            print("***Caso 7")
-            pub_steering.publish(0.6)
-            pub_throttle.publish(-0.2)
-        else: # 9
-            print("***Caso 9")
-            pub_steering.publish(0.0)
-            pub_throttle.publish(0.4)
-    elif -slopeLeft == 0.0: #8
-        print("***Caso 8")
-        pub_steering.publish(-0.6)
-        pub_throttle.publish(-0.2)
+    #steeringVal = computePID(slopeLeft+slopeRight)
+    pub_steering.publish(steeringVal)
+    pub_throttle.publish(throttleVal)
+
+    # if -slopeLeft >= 0.8: 
+    #     if slopeRight >= 0.8: #1
+    #         print("***Caso 1")
+    #         pub_steering.publish(0.0)
+    #         pub_throttle.publish(-0.2)
+    #     elif slopeRight == 0.0: #3
+    #         print("***Caso 3")
+    #         pub_steering.publish(0.1)
+    #         pub_throttle.publish(-0.2)
+    #     else: #2
+    #         print("***Caso 2")
+    #         pub_steering.publish(-0.3)
+    #         pub_throttle.publish(-0.2)
+    # elif slopeRight >= 0.8:
+    #     if slopeLeft == 0.0: #5
+    #         print("***Caso 5")
+    #         pub_steering.publish(-0.1)
+    #         pub_throttle.publish(-0.2)
+    #     else: # 4
+    #         print("***Caso 4")
+    #         pub_steering.publish(0.3)
+    #         pub_throttle.publish(-0.2)
+    # elif -slopeLeft < 0.8 and -slopeLeft>0.0:
+    #     if slopeRight == 0.0: #7
+    #         print("***Caso 7")
+    #         pub_steering.publish(0.6)
+    #         pub_throttle.publish(-0.2)
+    #     else: # 9
+    #         print("***Caso 9")
+    #         pub_steering.publish(0.0)
+    #         pub_throttle.publish(0.4)
+    # elif -slopeLeft == 0.0: #8
+    #     print("***Caso 8")
+    #     pub_steering.publish(-0.6)
+    #     pub_throttle.publish(-0.2)
 
 
 h_min = 0
@@ -274,7 +347,7 @@ def mainCamera():
         #line_image = display_lines(frame, lines)
         #combo_image = addWeighted(frame, line_image)
         #cv2.imshow("Canny",canny_image)
-        #cv2.imshow("ROI",cropped_canny)
+        cv2.imshow("ROI",cropped_canny)
 
         #cv2.imshow("result", combo_image)
         #cv2.imshow("Oranged",imgResult)
@@ -284,7 +357,15 @@ def mainCamera():
             a=1
             cap.release()
             cv2.destroyAllWindows()
-
+            with open("dataErrOut.txt", "w") as f:
+                for elemento in dataListErrOut:
+                    f.write(elemento)
+                    f.write("\n")
+            
+            with open("dataSlo.txt", "w") as f:
+                for elemento in dataListSlo:
+                    f.write(elemento)
+                    f.write("\n")
         rate.sleep()
 
     
