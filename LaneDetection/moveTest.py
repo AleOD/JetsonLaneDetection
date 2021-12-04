@@ -17,7 +17,7 @@ ki = 0.2
 kd = 0
 outMin = -20
 outMax = 20
-throttleVal = -0.2
+throttleVal = -0.16
 
 # Function to mapping values
 def mapFnc(value, fromMin, fromMax, toMin, toMax):
