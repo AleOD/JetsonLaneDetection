@@ -15,8 +15,8 @@ Setpoint = 0
 kp = 6
 ki = 2
 kd = 8
-outMin = -200
-outMax = 200
+outMin = -40
+outMax = 40
 throttleVal = -0.16
 #Grafica
 dataList = []
