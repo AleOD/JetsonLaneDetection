@@ -11,7 +11,7 @@ error = 0
 cumError = 0
 rateError = 0
 lastError = 0
-Setpoint = 0
+setpoint = 0.8
 kp = 6
 ki = 2
 kd = 8
@@ -38,7 +38,7 @@ def mapFnc(value, fromMin, fromMax, toMin, toMax):
 def computePID(inp):
     global cumError, lastError
     T = 0.1
-    error = Setpoint - inp  #Determine error
+    error = setpoint - inp  #Determine error
     cumError += error*T     #compute integral
     rateError = (error - lastError)/T # compute derivative
     
@@ -242,9 +242,21 @@ def movement(slopeVal,pub_throttle,pub_steering):
     #print("********pendiente derecha")
     #print(slopeRight)
     dataListSlo.append(str(slopeLeft) + "\t" + str(slopeRight)  + "\t" + str(slopeLeft+slopeRight))
-    steeringVal = computePID(slopeLeft+slopeRight)
-    pub_steering.publish(0.0)
-    pub_throttle.publish(0.0)
+
+    if((-slopeLeft > setpoint) and (slopeRight > setpoint):
+        steeringVal = 0.0
+    elif(-slopeLeft > 0.0 and -slopeLeft < setpoint):
+        steeringVal = computePID(-slopeLeft)
+    elif(slopeRight > 0.0 and slopeRight < setpoint):
+        steeringVal = computePID(slopeRight)
+    elif(-slopeLeft > 0.8 and slopeRight==0):
+        steeringVal = 0.2
+    elif(slopeRight > 0.8 and slopeLeft==0):
+        steeringVal = -0.2
+
+    #steeringVal = computePID(slopeLeft+slopeRight)
+    pub_steering.publish(steeringVal)
+    pub_throttle.publish(throttleVal)
 
     # if -slopeLeft >= 0.8: 
     #     if slopeRight >= 0.8: #1
