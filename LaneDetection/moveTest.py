@@ -44,17 +44,17 @@ def computePID(inp):
     
     out = kp*error + ki*cumError + kd*rateError #PID output
     lastError = error   #remember current error
-    print("Errors: ")
-    print(error)
-    #print(cumError)
-    #print(rateError)
-    print("Out")
-    print(out)
-    outmapped = mapFnc(out, outMin, outMax, -0.95, 0.95)
-    print("Out Mapeado")
-    print(outmapped)
-    print
-    print
+    #print("Errors: ")
+    #print(error)
+    ##print(cumError)
+    ##print(rateError)
+    #print("Out")
+    #print(out)
+    #outmapped = mapFnc(out, outMin, outMax, -0.95, 0.95)
+    #print("Out Mapeado")
+    #print(outmapped)
+    #print
+    #print
     dataListErrOut.append(str(error)+"\t" + str(out) + "\t" + str(outmapped))
     if(outmapped > 0.95):
         return float(0.95)
@@ -127,7 +127,7 @@ def region_of_interest(canny):
    return masked_image
 
 def houghLines(cropped_canny,width):
-   return cv2.HoughLinesP(cropped_canny, 2, np.pi/180, 3, 
+   return cv2.HoughLinesP(cropped_canny, 1, np.pi/180, 3, 
        np.array([]), minLineLength=40, maxLineGap=5)
 def addWeighted(frame, line_image):
     return cv2.addWeighted(frame, 0.8, line_image, 1, 0.0)
@@ -334,6 +334,8 @@ def mainCamera():
         cropped_canny = region_of_interest(canny_image)
         lines = houghLines(cropped_canny,width)
         averaged_lines, slopeValues = average_slope_intercept(frame, lines)
+        print("Estas son las pendientes")
+        print(slopeValues)
         if (slopeValues[0] == 0.0) and (slopeValues[1] == 0.0):
             #print("NO me voy a mover*****************")
             pub_throttle.publish(-0.0)
@@ -344,12 +346,12 @@ def mainCamera():
             movement(slopeValues,pub_throttle,pub_steering)
             #print(lines)
         #line_image = display_lines(frame, averaged_lines)
-        #line_image = display_lines(frame, lines)
-        #combo_image = addWeighted(frame, line_image)
-        #cv2.imshow("Canny",canny_image)
+        line_image = display_lines(frame, lines)
+        combo_image = addWeighted(frame, line_image)
+        cv2.imshow("Canny",canny_image)
         cv2.imshow("ROI",cropped_canny)
 
-        #cv2.imshow("result", combo_image)
+        cv2.imshow("result", combo_image)
         #cv2.imshow("Oranged",imgResult)
         #cv2.imshow("Normal",frame)
             
