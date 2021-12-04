@@ -11,11 +11,14 @@ Setpoint = 0
 kp = 1
 ki = 1
 kd = 1
+error = 0
 cumError = 0
+rateError = 0
 lastError = 0
 
 # PID
 def computePID(inp):
+    global cumError, lastError
     T = 0.1
     error = Setpoint - inp  #Determine error
     cumError += error*T     #compute integral
