@@ -9,7 +9,7 @@ from std_msgs.msg import Float32
 a=0
 Setpoint = 0
 kp = 10
-ki = 0
+ki = 0.5
 kd = 0
 error = 0
 cumError = 0
@@ -236,7 +236,7 @@ def movement(slopeVal,pub_throttle,pub_steering):
     #print(slopeRight)
     steeringVal = computePID(slopeLeft+slopeRight)
     pub_steering.publish(steeringVal)
-    pub_throttle.publish(-0.2)
+    pub_throttle.publish(-0.15)
 
     # if -slopeLeft >= 0.8: 
     #     if slopeRight >= 0.8: #1
