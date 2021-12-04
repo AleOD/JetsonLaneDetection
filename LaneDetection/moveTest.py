@@ -52,6 +52,8 @@ def computePID(inp):
     print(outmapped)
     print
     print
+    with open('data.txt', 'w') as f:
+        f.write(str(error)+"\t" + str(out) + "\t" + str(outmapped) + "\n")
     if(outmapped > 0.95):
         return float(0.95)
     elif(outmapped < -0.95):
