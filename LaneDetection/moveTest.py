@@ -352,7 +352,7 @@ def mainCamera():
             with open("dataSlo.txt", "w") as f:
                 for elemento in dataListSlo:
                     f.write(elemento)
-                    f.write("\n")/
+                    f.write("\n")
         rate.sleep()
 
     
