@@ -16,6 +16,18 @@ cumError = 0
 rateError = 0
 lastError = 0
 
+# Function to mapping values
+def mapFnc(value, fromMin, fromMax, toMin, toMax):
+    # Figure out how 'wide' each range is
+    fromSpan = fromMax - fromMin
+    toSpan = toMax - toMin
+
+    # Convert the left range into a 0-1 range (float)
+    valueScaled = float(value - fromMin) / float(fromSpan)
+
+    # Convert the 0-1 range into a value in the right range.
+    return toMin + (valueScaled * toSpan)
+
 # PID
 def computePID(inp):
     global cumError, lastError
@@ -32,8 +44,17 @@ def computePID(inp):
     #print(rateError)
     print("Out")
     print(out)
-    print()
-    print()
+    outmapped = mapFnc(out, -100, 100, -9.5, 9.5)
+    print("Out Mapeado")
+    print(outmapped)
+    print
+    print
+    if(outmapped > 9.5):
+        return 9.5
+    elif(outmapped < -9.5):
+        return -9.5
+    else:
+        return outmapped
     #return out #have function return the PID output
 
 #Gstreamer pipeline settings
