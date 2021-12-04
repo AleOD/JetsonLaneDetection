@@ -12,8 +12,23 @@ kp = 1
 ki = 1
 kd = 1
 
-#Methods
+# PID
 def computePID(inp):
+    T = 0.1
+    error = Setpoint - inp  #Determine error
+    cumError += error*T     #compute integral
+    rateError = (error - lastError)/T # compute derivative
+    
+    out = kp*error + ki*cumError + kd*rateError #PID output
+    lastError = error   #remember current error
+    print("Errors: ")
+    print(error)
+    print(cumError)
+    print(rateError)
+    print("Out")
+    print(out)
+    #return out #have function return the PID output
+}
 
 #Gstreamer pipeline settings
 def gstreamer_pipeline(
@@ -295,23 +310,6 @@ def mainCamera():
 
         rate.sleep()
 
-# PID
-def computePID(inp):
-    T = 0.1
-    error = Setpoint - inp  #Determine error
-    cumError += error*T     #compute integral
-    rateError = (error - lastError)/T # compute derivative
-    
-    out = kp*error + ki*cumError + kd*rateError #PID output
-    lastError = error   #remember current error
-    print("Errors: ")
-    print(error)
-    print(cumError)
-    print(rateError)
-    print("Out")
-    print(out)
-    #return out #have function return the PID output
-}
     
 
 if __name__ == '__main__':
