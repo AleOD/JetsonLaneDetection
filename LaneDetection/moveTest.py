@@ -28,10 +28,12 @@ def computePID(inp):
     lastError = error   #remember current error
     print("Errors: ")
     print(error)
-    print(cumError)
-    print(rateError)
+    #print(cumError)
+    #print(rateError)
     print("Out")
     print(out)
+    print()
+    print()
     #return out #have function return the PID output
 
 #Gstreamer pipeline settings
