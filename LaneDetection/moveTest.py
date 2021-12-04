@@ -236,7 +236,7 @@ def movement(slopeVal,pub_throttle,pub_steering):
     #print(slopeRight)
     steeringVal = computePID(slopeLeft+slopeRight)
     pub_steering.publish(steeringVal)
-    pub_throttle.publish(-0.15)
+    pub_throttle.publish(-0.2)
 
     # if -slopeLeft >= 0.8: 
     #     if slopeRight >= 0.8: #1
