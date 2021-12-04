@@ -245,7 +245,7 @@ def movement(slopeVal,pub_throttle,pub_steering):
 
     if((-slopeLeft > setpoint) and (slopeRight > setpoint)):
         steeringVal = computePID(setpoint)
-    elif(-slopeLeft > 0.0 and -slopeLeft < setpoint)
+    elif(-slopeLeft > 0.0 and -slopeLeft < setpoint):
         steeringVal = computePID(-slopeLeft)
     elif(slopeRight > 0.0 and slopeRight < setpoint):
         steeringVal = computePID(slopeRight)
