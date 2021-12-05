@@ -241,10 +241,10 @@ def movement(slopeVal,pub_throttle,pub_steering):
     slopeLeft=slopeVal[0]
     slopeRight=slopeVal[1]
     #pub_throttle.publish(-0.3)
-    #print("********pendiente izquierda")
-    #print(slopeLeft)
-    #print("********pendiente derecha")
-    #print(slopeRight)
+    print("********pendiente izquierda")
+    print(slopeLeft)
+    print("********pendiente derecha")
+    print(slopeRight)
     #dataListSlo.append(str(slopeLeft) + "\t" + str(slopeRight)  + "\t" + str(slopeLeft+slopeRight))
 
     #steeringVal = 0.0
