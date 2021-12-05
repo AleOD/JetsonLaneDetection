@@ -121,8 +121,8 @@ def region_of_interest(canny):
    trapezoid = np.array([[
    (0, height),
    (width, height),
-   (width*9/10,height/6),
-   (width/10, height/6),
+   (width*9/10,height/7),
+   (width/10, height/7),
    ]], np.int32)
    cv2.fillPoly(mask, trapezoid, 255)
    #cv2.fillPoly(mask, trapezoid, 0)
@@ -333,7 +333,7 @@ def mainCamera():
         #line_image = display_lines(frame, lines)
         combo_image = addWeighted(frame, line_image)
         #cv2.imshow("Canny",canny_image)
-        cv2.imshow("ROI",cropped_canny)
+        #cv2.imshow("ROI",cropped_canny)
 
         cv2.imshow("result", combo_image)
         #cv2.imshow("Oranged",imgResult)
