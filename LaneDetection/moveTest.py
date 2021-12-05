@@ -22,6 +22,9 @@ throttleVal = -0.16
 dataListErrOut = []
 dataListSlo = []
 
+def _map(x, in_min, in_max, out_min, out_max):
+    return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
+
 # Function to mapping values
 def mapFnc(value, fromMin, fromMax, toMin, toMax):
     # Figure out how 'wide' each range is
@@ -104,8 +107,8 @@ def canny(img):
         
     gray = cv2.cvtColor(dilation, cv2.COLOR_BGR2GRAY)
     kernel = 101
-    blur = cv2.GaussianBlur(gray,(kernel, kernel),0)
-    canny = blur
+    #blur = cv2.GaussianBlur(gray,(kernel, kernel),0)
+    #canny = blur
     #canny = cv2.Canny(gray, 4, 100,L2gradient = True)
     canny = cv2.Canny(gray, 500, 475)
     return canny
@@ -127,8 +130,8 @@ def region_of_interest(canny):
    return masked_image
 
 def houghLines(cropped_canny,width):
-   return cv2.HoughLinesP(cropped_canny, 2, np.pi/180, 3, 
-       np.array([]), minLineLength=40, maxLineGap=5)
+   return cv2.HoughLinesP(cropped_canny, 2, np.pi/180, 10, 
+       np.array([]), minLineLength=55, maxLineGap=15)
 def addWeighted(frame, line_image):
     return cv2.addWeighted(frame, 0.8, line_image, 1, 0.0)
  
@@ -241,59 +244,40 @@ def movement(slopeVal,pub_throttle,pub_steering):
     #print(slopeLeft)
     #print("********pendiente derecha")
     #print(slopeRight)
-    dataListSlo.append(str(slopeLeft) + "\t" + str(slopeRight)  + "\t" + str(slopeLeft+slopeRight))
+    #dataListSlo.append(str(slopeLeft) + "\t" + str(slopeRight)  + "\t" + str(slopeLeft+slopeRight))
 
-    steeringVal = 0.0
-    if((-slopeLeft > setpoint) and (slopeRight > setpoint)):
-        steeringVal = computePID(setpoint)
-    elif(-slopeLeft > 0.0 and -slopeLeft < setpoint):
-        steeringVal = computePID(-slopeLeft)
-    elif(slopeRight > 0.0 and slopeRight < setpoint):
-        steeringVal = computePID(slopeRight)
-    elif(-slopeLeft > setpoint and slopeRight==0):
+    #steeringVal = 0.0
+    if((-slopeLeft > setpoint) and (slopeRight > setpoint)): #Caso 1
+        throttleVal = -0.2
+        steeringVal = 0.0
+    elif(-slopeLeft > 0.0 and -slopeLeft < setpoint): #Caso 4,6,8
+        if (slopeRight > 0.0 and slopeRight < setpoint): #Caso 8
+            throttleVal = 0.2
+            steeringVal = 0.0
+        elif (slopeRight == 0.0): #Caso 6
+            throttleVal = 0.2
+            #steeringVal = _map(-slopeLeft, 0.1, setpoint, 0.95, 0.1)
+            steeringVal = 0.5
+        else: #Caso 4
+            throttleVal = -0.2
+            steeringVal = 0.0
+    elif(slopeRight > 0.0 and slopeRight < setpoint): #Caso 2,7
+        if(slopeLeft==0.0): #Caso 7
+            throttleVal = -0.2
+            #steeringVal = _map(slopeRight, 0.1, setpoint, 0.95, 0.1)
+            steeringVal = -0.5
+        else: #Caso 2
+            throttleVal = -0.2
+            steeringVal = 0.0
+    elif(-slopeLeft > setpoint and slopeRight==0.0): #Caso 3
+        throttleVal = 0.0
         steeringVal = 0.2
-    elif(slopeRight > setpoint and slopeLeft==0):
+    elif(slopeRight > setpoint and slopeLeft==0.0): #Caso 5
+        throttleVal = 0.0
         steeringVal = -0.2
-
     #steeringVal = computePID(slopeLeft+slopeRight)
     pub_steering.publish(steeringVal)
     pub_throttle.publish(throttleVal)
-
-    # if -slopeLeft >= 0.8: 
-    #     if slopeRight >= 0.8: #1
-    #         print("***Caso 1")
-    #         pub_steering.publish(0.0)
-    #         pub_throttle.publish(-0.2)
-    #     elif slopeRight == 0.0: #3
-    #         print("***Caso 3")
-    #         pub_steering.publish(0.1)
-    #         pub_throttle.publish(-0.2)
-    #     else: #2
-    #         print("***Caso 2")
-    #         pub_steering.publish(-0.3)
-    #         pub_throttle.publish(-0.2)
-    # elif slopeRight >= 0.8:
-    #     if slopeLeft == 0.0: #5
-    #         print("***Caso 5")
-    #         pub_steering.publish(-0.1)
-    #         pub_throttle.publish(-0.2)
-    #     else: # 4
-    #         print("***Caso 4")
-    #         pub_steering.publish(0.3)
-    #         pub_throttle.publish(-0.2)
-    # elif -slopeLeft < 0.8 and -slopeLeft>0.0:
-    #     if slopeRight == 0.0: #7
-    #         print("***Caso 7")
-    #         pub_steering.publish(0.6)
-    #         pub_throttle.publish(-0.2)
-    #     else: # 9
-    #         print("***Caso 9")
-    #         pub_steering.publish(0.0)
-    #         pub_throttle.publish(0.4)
-    # elif -slopeLeft == 0.0: #8
-    #     print("***Caso 8")
-    #     pub_steering.publish(-0.6)
-    #     pub_throttle.publish(-0.2)
 
 
 h_min = 0
@@ -336,7 +320,8 @@ def mainCamera():
         averaged_lines, slopeValues = average_slope_intercept(frame, lines)
         if (slopeValues[0] == 0.0) and (slopeValues[1] == 0.0):
             #print("NO me voy a mover*****************")
-            pub_throttle.publish(-0.0)
+            pub_throttle.publish(0.0)
+            pub_steering.publish(0.0)
             
         else:
             
@@ -357,15 +342,15 @@ def mainCamera():
             a=1
             cap.release()
             cv2.destroyAllWindows()
-            with open("dataErrOut.txt", "w") as f:
-                for elemento in dataListErrOut:
-                    f.write(elemento)
-                    f.write("\n")
+            # with open("dataErrOut.txt", "w") as f:
+            #     for elemento in dataListErrOut:
+            #         f.write(elemento)
+            #         f.write("\n")
             
-            with open("dataSlo.txt", "w") as f:
-                for elemento in dataListSlo:
-                    f.write(elemento)
-                    f.write("\n")
+            # with open("dataSlo.txt", "w") as f:
+            #     for elemento in dataListSlo:
+            #         f.write(elemento)
+            #         f.write("\n")
         rate.sleep()
 
     
