@@ -107,7 +107,7 @@ def canny(img):
     blur = cv2.GaussianBlur(gray,(kernel, kernel),0)
     canny = blur
     #canny = cv2.Canny(gray, 4, 100,L2gradient = True)
-    final = cv2.Canny(blur, 500, 475)
+    final = cv2.Canny(canny, 500, 475)
     return final
 
 def region_of_interest(canny):
