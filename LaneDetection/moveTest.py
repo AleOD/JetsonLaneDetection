@@ -257,7 +257,7 @@ def movement(slopeVal,pub_throttle,pub_steering):
         elif (slopeRight == 0.0): #Caso 6
             throttleVal = 0.2
             #steeringVal = _map(-slopeLeft, 0.1, setpoint, 0.95, 0.1)
-            steeringVal = 0.6
+            steeringVal = 0.5
         else: #Caso 4
             throttleVal = -0.2
             steeringVal = 0.0
@@ -265,16 +265,16 @@ def movement(slopeVal,pub_throttle,pub_steering):
         if(slopeLeft==0.0): #Caso 7
             throttleVal = -0.2
             #steeringVal = _map(slopeRight, 0.1, setpoint, 0.95, 0.1)
-            steeringVal = -0.6
+            steeringVal = -0.5
         else: #Caso 2
             throttleVal = -0.2
             steeringVal = 0.0
     elif(-slopeLeft > setpoint and slopeRight==0.0): #Caso 3
         throttleVal = -0.2
-        steeringVal = 0.6
+        steeringVal = 0.5
     elif(slopeRight > setpoint and slopeLeft==0.0): #Caso 5
         throttleVal = -0.2
-        steeringVal = -0.6
+        steeringVal = -0.5
     #steeringVal = computePID(slopeLeft+slopeRight)
     pub_steering.publish(steeringVal)
     pub_throttle.publish(throttleVal)
