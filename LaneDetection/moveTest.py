@@ -12,7 +12,7 @@ cumError = 0
 rateError = 0
 lastError = 0
 setpoint = 0.9
-lapSpeed = 0.15
+lapSpeed = 0.2
 kp = 6
 ki = 2
 kd = 8
@@ -271,10 +271,10 @@ def movement(slopeVal,pub_throttle,pub_steering):
             throttleVal = -0.2
             steeringVal = -0.25
     elif(-slopeLeft > setpoint and slopeRight==0.0): #Caso 3
-        throttleVal = -0.2
+        throttleVal = -0.15
         steeringVal = 0.15
     elif(slopeRight > setpoint and slopeLeft==0.0): #Caso 5
-        throttleVal = -0.2
+        throttleVal = -0.15
         steeringVal = -0.15
     #steeringVal = computePID(slopeLeft+slopeRight)
     pub_steering.publish(steeringVal)
