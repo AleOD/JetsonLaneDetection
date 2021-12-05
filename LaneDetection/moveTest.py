@@ -260,7 +260,7 @@ def movement(slopeVal,pub_throttle,pub_steering):
             steeringVal = 0.5
         else: #Caso 4
             throttleVal = -0.15
-            steeringVal = 0.5
+            steeringVal = 0.3
     elif(slopeRight > 0.0 and slopeRight < setpoint): #Caso 2,7
         if(slopeLeft==0.0): #Caso 7
             throttleVal = -0.15
@@ -268,7 +268,7 @@ def movement(slopeVal,pub_throttle,pub_steering):
             steeringVal = -0.5
         else: #Caso 2
             throttleVal = -0.15
-            steeringVal = -0.5
+            steeringVal = -0.3
     elif(-slopeLeft > setpoint and slopeRight==0.0): #Caso 3
         throttleVal = -0.15
         steeringVal = 0.5
