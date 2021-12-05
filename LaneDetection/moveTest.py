@@ -328,13 +328,13 @@ def mainCamera():
             #print("****** Me voy a mover")
             movement(slopeValues,pub_throttle,pub_steering)
             #print(lines)
-        #line_image = display_lines(frame, averaged_lines)
+        line_image = display_lines(frame, averaged_lines)
         #line_image = display_lines(frame, lines)
-        #combo_image = addWeighted(frame, line_image)
+        combo_image = addWeighted(frame, line_image)
         #cv2.imshow("Canny",canny_image)
-        cv2.imshow("ROI",cropped_canny)
+        #cv2.imshow("ROI",cropped_canny)
 
-        #cv2.imshow("result", combo_image)
+        cv2.imshow("result", combo_image)
         #cv2.imshow("Oranged",imgResult)
         #cv2.imshow("Normal",frame)
             
