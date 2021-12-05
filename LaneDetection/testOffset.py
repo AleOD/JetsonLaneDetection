@@ -10,7 +10,7 @@ while True:
     rate = rospy.Rate(10) # 10hz
 
     val = input()
-    pub_throttle.publish(0.0)
+    pub_throttle.publish(-0.2)
     pub_steering.publish(float(val))
 
     rate.sleep()
