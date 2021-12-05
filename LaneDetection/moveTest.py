@@ -11,7 +11,7 @@ error = 0
 cumError = 0
 rateError = 0
 lastError = 0
-setpoint = 0.6
+setpoint = 0.7
 lapSpeed = 0.15
 kp = 6
 ki = 2
@@ -253,7 +253,7 @@ def movement(slopeVal,pub_throttle,pub_steering):
         steeringVal = 0.0
     elif(-slopeLeft > 0.0 and -slopeLeft < setpoint): #Caso 4,6,8
         if (slopeRight > 0.0 and slopeRight < setpoint): #Caso 8
-            throttleVal = -0.1
+            throttleVal = -0.15
             steeringVal = 0.0
         elif (slopeRight == 0.0): #Caso 6
             throttleVal = -lapSpeed
