@@ -332,7 +332,7 @@ def mainCamera():
         line_image = display_lines(frame, averaged_lines)
         #line_image = display_lines(frame, lines)
         combo_image = addWeighted(frame, line_image)
-        imageFinal = cv2.putText(combo_image, str(slopeValues), (10,10), cv2.FONT_HERSHEY_DUPLEX , 1.5, (255,0,255), 2)
+        imageFinal = cv2.putText(combo_image, str(slopeValues), (10,40), cv2.FONT_HERSHEY_DUPLEX , 1, (255,0,255), 2)
         #cv2.imshow("Canny",canny_image)
         #cv2.imshow("ROI",cropped_canny)
 
