@@ -12,7 +12,7 @@ cumError = 0
 rateError = 0
 lastError = 0
 setpoint = 0.7
-lapSpeed = 0.4
+lapSpeed = 0.7
 kp = 6
 ki = 2
 kd = 8
@@ -251,12 +251,12 @@ def movement(slopeVal,pub_throttle,pub_steering):
 
     #steeringVal = 0.0
     if((-slopeLeft > setpoint) and (slopeRight > setpoint)): #Caso 1
-        throttleVal = -0.4
+        throttleVal = -0.7
         steeringVal = 0.0
         caso = 1
     elif(-slopeLeft > 0.0 and -slopeLeft < setpoint): #Caso 4,6,8
         if (slopeRight > 0.0 and slopeRight < setpoint): #Caso 8
-            throttleVal = -0.4
+            throttleVal = -0.7
             steeringVal = 0.0
             caso = 8
         elif (slopeRight == 0.0): #Caso 6
@@ -265,7 +265,7 @@ def movement(slopeVal,pub_throttle,pub_steering):
             steeringVal = 0.45 + offsetRight
             caso = 6
         else: #Caso 4
-            throttleVal = -0.4
+            throttleVal = -0.7
             steeringVal = 0.0 ## avanzar
             caso = 4
     elif(slopeRight > 0.0 and slopeRight < setpoint): #Caso 2,7
@@ -275,15 +275,15 @@ def movement(slopeVal,pub_throttle,pub_steering):
             steeringVal = -0.45
             caso = 7
         else: #Caso 2
-            throttleVal = -0.4
+            throttleVal = -0.7
             steeringVal = -0.0
             caso = 2
     elif(-slopeLeft > setpoint and slopeRight==0.0): #Caso 3
-        throttleVal = -0.4
+        throttleVal = -0.7
         steeringVal = 0.55 + offsetRight
         caso = 3
     elif(slopeRight > setpoint and slopeLeft==0.0): #Caso 5
-        throttleVal = -0.4
+        throttleVal = -0.7
         steeringVal = -0.55
         caso = 5
     #steeringVal = computePID(slopeLeft+slopeRight)
