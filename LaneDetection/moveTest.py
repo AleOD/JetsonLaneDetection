@@ -307,11 +307,13 @@ def mainCamera():
     pub_steering = rospy.Publisher('steering', Float32, queue_size=8)
     rospy.init_node('teleop', anonymous=True)
     rate = rospy.Rate(200) # 100hz
+    caso = 0
 
     #pub_throttle.publish(-1.0)
     #pub_steering.publish(-1.0)
 
     while not rospy.is_shutdown() or a==1:
+        
         #Prefiltrado Naranja    
         ret,frame = cap.read()
 
