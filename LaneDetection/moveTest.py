@@ -18,7 +18,7 @@ ki = 2
 kd = 8
 outMin = -15
 outMax = 15
-throttleVal = -0.16
+throttleVal = -0.16 #
 offsetRight = 0.0 # offset de giro a la derecha
 #Graph
 dataListErrOut = []
