@@ -307,7 +307,7 @@ def mainCamera():
     pub_throttle = rospy.Publisher('throttle', Float32, queue_size=8)
     pub_steering = rospy.Publisher('steering', Float32, queue_size=8)
     rospy.init_node('teleop', anonymous=True)
-    rate = rospy.Rate(200) # 100hz
+    rate = rospy.Rate(1000) # 100hz
     caso = 0
 
     #pub_throttle.publish(-1.0)
