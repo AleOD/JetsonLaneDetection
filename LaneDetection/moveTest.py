@@ -280,11 +280,11 @@ def movement(slopeVal,pub_throttle,pub_steering):
             caso = 2
     elif(-slopeLeft > setpoint and slopeRight==0.0): #Caso 3
         throttleVal = -0.15
-        steeringVal = 0.35 + offsetRight
+        steeringVal = 0.50 + offsetRight
         caso = 3
     elif(slopeRight > setpoint and slopeLeft==0.0): #Caso 5
         throttleVal = -0.15
-        steeringVal = -0.35
+        steeringVal = -0.50
         caso = 5
     #steeringVal = computePID(slopeLeft+slopeRight)
     pub_steering.publish(steeringVal)
