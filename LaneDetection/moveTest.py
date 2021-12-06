@@ -332,11 +332,11 @@ def mainCamera():
         line_image = display_lines(frame, averaged_lines)
         #line_image = display_lines(frame, lines)
         combo_image = addWeighted(frame, line_image)
-        cv2.putText(combo_image, slopeValues, (0,0), cv2.FONT_HERSHEY_DUPLEX , 2, (255,0,255), 2, bottomLeftOrigin = False)
+        imageFinal = cv2.putText(combo_image, slopeValues, (0,0), cv2.FONT_HERSHEY_DUPLEX , 2, (255,0,255), 2, bottomLeftOrigin = False)
         #cv2.imshow("Canny",canny_image)
         #cv2.imshow("ROI",cropped_canny)
 
-        cv2.imshow("result", combo_image)
+        cv2.imshow("result", imageFinal)
         #cv2.imshow("Oranged",imgResult)
         #cv2.imshow("Normal",frame)
             
