@@ -11,7 +11,7 @@ error = 0
 cumError = 0
 rateError = 0
 lastError = 0
-setpoint = 0.6
+setpoint = 0.7
 lapSpeed = 0.2
 kp = 6
 ki = 2
@@ -240,6 +240,7 @@ def average_slope_intercept(image, lines):
 def movement(slopeVal,pub_throttle,pub_steering):
     slopeLeft=slopeVal[0]
     slopeRight=slopeVal[1]
+    caso = 0
     #pub_throttle.publish(-0.3)
     print("********pendiente izquierda")
     print(slopeLeft)
@@ -251,34 +252,43 @@ def movement(slopeVal,pub_throttle,pub_steering):
     if((-slopeLeft > setpoint) and (slopeRight > setpoint)): #Caso 1
         throttleVal = -0.2
         steeringVal = 0.0
+        caso = 1
     elif(-slopeLeft > 0.0 and -slopeLeft < setpoint): #Caso 4,6,8
         if (slopeRight > 0.0 and slopeRight < setpoint): #Caso 8
             throttleVal = -0.2
             steeringVal = 0.0
+            caso = 8
         elif (slopeRight == 0.0): #Caso 6
             throttleVal = -lapSpeed
             #steeringVal = _map(-slopeLeft, 0.1, setpoint, 0.95, 0.1)
             steeringVal = 0.45
+            caso = 6
         else: #Caso 4
             throttleVal = -0.2
             steeringVal = 0.25
+            caso = 4
     elif(slopeRight > 0.0 and slopeRight < setpoint): #Caso 2,7
         if(slopeLeft==0.0): #Caso 7
             throttleVal = -lapSpeed
             #steeringVal = _map(slopeRight, 0.1, setpoint, 0.95, 0.1)
             steeringVal = -0.45
+            caso = 7
         else: #Caso 2
             throttleVal = -0.2
             steeringVal = -0.25
+            caso = 2
     elif(-slopeLeft > setpoint and slopeRight==0.0): #Caso 3
         throttleVal = -0.15
         steeringVal = 0.15
+        caso = 3
     elif(slopeRight > setpoint and slopeLeft==0.0): #Caso 5
         throttleVal = -0.15
         steeringVal = -0.15
+        caso = 5
     #steeringVal = computePID(slopeLeft+slopeRight)
     pub_steering.publish(steeringVal)
     pub_throttle.publish(throttleVal)
+    return caso
 
 
 h_min = 0
@@ -327,12 +337,13 @@ def mainCamera():
         else:
             
             #print("****** Me voy a mover")
-            movement(slopeValues,pub_throttle,pub_steering)
+            caso = movement(slopeValues,pub_throttle,pub_steering)
             #print(lines)
         line_image = display_lines(frame, averaged_lines)
         #line_image = display_lines(frame, lines)
         combo_image = addWeighted(frame, line_image)
-        imageFinal = cv2.putText(combo_image, str(slopeValues), (10,40), cv2.FONT_HERSHEY_DUPLEX , 1, (255,0,255), 2)
+        text1 = cv2.putText(combo_image, str(slopeValues), (10,40), cv2.FONT_HERSHEY_DUPLEX , 1, (255,0,255), 2)
+        imageFinal = cv2.putText(text1, str(caso), (10,50), cv2.FONT_HERSHEY_DUPLEX , 1, (255,0,255), 2)
         #cv2.imshow("Canny",canny_image)
         #cv2.imshow("ROI",cropped_canny)
 
