@@ -18,7 +18,7 @@ ki = 2
 kd = 8
 outMin = -15
 outMax = 15
-throttleVal = -0.3
+throttleVal = -0.16
 offsetRight = 0.5 # offset de giro a la derecha
 #Graph
 dataListErrOut = []
@@ -280,11 +280,11 @@ def movement(slopeVal,pub_throttle,pub_steering):
             caso = 2
     elif(-slopeLeft > setpoint and slopeRight==0.0): #Caso 3
         throttleVal = -0.15
-        steeringVal = 0.50 + offsetRight
+        steeringVal = 0.70 + offsetRight
         caso = 3
     elif(slopeRight > setpoint and slopeLeft==0.0): #Caso 5
         throttleVal = -0.15
-        steeringVal = -0.50
+        steeringVal = -0.70
         caso = 5
     #steeringVal = computePID(slopeLeft+slopeRight)
     pub_steering.publish(steeringVal)
@@ -307,7 +307,7 @@ def mainCamera():
     pub_throttle = rospy.Publisher('throttle', Float32, queue_size=8)
     pub_steering = rospy.Publisher('steering', Float32, queue_size=8)
     rospy.init_node('teleop', anonymous=True)
-    rate = rospy.Rate(1000) # 1000hz
+    rate = rospy.Rate(200) # 100hz
     caso = 0
 
     #pub_throttle.publish(-1.0)
