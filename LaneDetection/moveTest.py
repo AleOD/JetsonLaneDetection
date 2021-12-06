@@ -122,8 +122,8 @@ def region_of_interest(canny):
    trapezoid = np.array([[
    (0, height),
    (width, height),
-   (width*9/10,height/5),
-   (width/10, height/5),
+   (width*9/10,height/4),
+   (width/10, height/4),
    ]], np.int32)
    cv2.fillPoly(mask, trapezoid, 255)
    #cv2.fillPoly(mask, trapezoid, 0)
