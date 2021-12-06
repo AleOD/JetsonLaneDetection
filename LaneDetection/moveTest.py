@@ -351,7 +351,7 @@ def mainCamera():
         cv2.imshow("ROI",cropped_canny)
 
         cv2.imshow("result", imageFinal)
-        #cv2.imshow("Oranged",imgResult)
+        cv2.imshow("Oranged",imgResult)
         #cv2.imshow("Normal",frame)
             
         if cv2.waitKey(1) & 0xFF == ord('q'):
